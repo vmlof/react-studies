@@ -6,7 +6,7 @@ import WatchedSummary from "./components/WatchedSummary";
 import WatchedMoviesList from "./components/WatchedMoviesList";
 import Search from "./components/Search";
 import NumResults from "./components/NumResults";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MovieList from "./components/MovieList";
 
 const tempMovieData = [
@@ -56,9 +56,17 @@ const tempWatchedData = [
   },
 ];
 
+const KEY = "aff64a50";
+
 function App() {
-  const [movies, setMovies] = useState(tempMovieData);
-  const [watched, setWatched] = useState(tempWatchedData);
+  const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=interstellar`)
+      .then((res) => res.json())
+      .then((data) => setMovies(data.Search));
+  }, []);
 
   return (
     <>
