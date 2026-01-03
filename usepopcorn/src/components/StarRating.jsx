@@ -17,14 +17,14 @@ function StarRating({
   className = "",
   messages = [],
   defaultRaiting = 0,
-  onSetRaiting,
+  onSetRating,
 }) {
   const [rating, setRating] = useState(defaultRaiting);
-  const [tempRating, setTempRaiting] = useState(0);
+  const [tempRating, setTempRating] = useState(0);
 
   function handleRating(rating) {
     setRating(rating);
-    onSetRaiting(rating);
+    onSetRating(rating);
   }
 
   const textStyle = {
@@ -42,8 +42,8 @@ function StarRating({
             key={i}
             full={tempRating ? tempRating >= i + 1 : rating >= i + 1}
             onRate={() => handleRating(i + 1)}
-            onHoverIn={() => setTempRaiting(i + 1)}
-            onHoverOut={() => setTempRaiting(0)}
+            onHoverIn={() => setTempRating(i + 1)}
+            onHoverOut={() => setTempRating(0)}
             color={color}
             size={size}
           />
