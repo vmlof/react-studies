@@ -6,6 +6,7 @@ import Loader from "./components/Loader";
 import ErrorMessage from "./components/ErrorMessage";
 import StartScreen from "./components/StartScreen";
 import Question from "./components/Question";
+import NextButton from "./components/NextButton";
 
 export interface IQuestion {
   question: string;
@@ -27,7 +28,8 @@ export type Action =
   | { type: "dataReceived"; payload: IQuestion[] }
   | { type: "dataFailed" }
   | { type: "start" }
-  | { type: "newAnswer"; payload: number };
+  | { type: "newAnswer"; payload: number }
+  | { type: "nextQuestion" };
 
 const initialState: State = {
   questions: [],
@@ -59,6 +61,9 @@ function reducer(state: State, action: Action): State {
             ? state.points + question.points
             : state.points,
       };
+    }
+    case "nextQuestion": {
+      return { ...state, index: state.index + 1, answer: null };
     }
     default:
       throw new Error("Action unknown");
@@ -97,11 +102,15 @@ function App() {
           <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
         )}
         {status === "active" && (
-          <Question
-            question={questions[index]}
-            dispatch={dispatch}
-            answer={answer}
-          />
+          <>
+            <Question
+              question={questions[index]}
+              dispatch={dispatch}
+              answer={answer}
+            />
+
+            <NextButton dispatch={dispatch} answer={answer} />
+          </>
         )}
       </Main>
     </div>
