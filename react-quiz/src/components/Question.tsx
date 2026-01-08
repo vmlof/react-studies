@@ -9,8 +9,6 @@ type QuestionProps = {
 };
 
 function Question({ question, dispatch, answer }: QuestionProps) {
-  console.log(question);
-
   return (
     <div>
       <h4>{question.question}</h4>
