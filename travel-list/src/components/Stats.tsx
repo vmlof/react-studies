@@ -1,9 +1,15 @@
-function Stats({ items }) {
+import type { Item } from "../types";
+
+type StatsProps = {
+  items: Item[];
+};
+
+function Stats({ items }: StatsProps) {
   if (!items.length)
     return (
-      <p className="footer">
+      <footer className="stats">
         <em>Start adding some items to your packing list 🚀</em>
-      </p>
+      </footer>
     );
 
   const numItems = items.length;

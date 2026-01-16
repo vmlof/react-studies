@@ -1,15 +1,25 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
+import type { Item } from "../types";
 
-function Form({ onAddItems }) {
+type FormProps = {
+  onAddItems: (item: Item) => void;
+};
+
+function Form({ onAddItems }: FormProps) {
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState(1);
 
-  function handleSubmit(e) {
+  function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
     if (!description) return;
 
-    const newItem = { description, quantity, packed: false, id: Date.now() };
+    const newItem: Item = {
+      description,
+      quantity,
+      packed: false,
+      id: Date.now(),
+    };
 
     onAddItems(newItem);
 

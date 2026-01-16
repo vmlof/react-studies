@@ -1,9 +1,17 @@
-function Item({ item, onDeleteItem, onToggleItem }) {
+import type { Item as ItemType } from "../types";
+
+type ItemProps = {
+  item: ItemType;
+  onDeleteItem: (id: number) => void;
+  onToggleItem: (id: number) => void;
+};
+
+function Item({ item, onDeleteItem, onToggleItem }: ItemProps) {
   return (
     <li>
       <input
         type="checkbox"
-        value={item.packed}
+        checked={item.packed}
         onChange={() => onToggleItem(item.id)}
       />
       <span style={item.packed ? { textDecoration: "line-through" } : {}}>
