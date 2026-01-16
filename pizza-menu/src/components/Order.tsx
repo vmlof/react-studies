@@ -1,4 +1,9 @@
-function Order({ closeHour, openHour }) {
+type OrderProps = {
+  closeHour: number;
+  openHour: number;
+};
+
+function Order({ closeHour, openHour }: OrderProps) {
   return (
     <div className="order">
       <p>

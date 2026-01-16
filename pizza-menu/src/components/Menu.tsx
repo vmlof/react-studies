@@ -1,6 +1,7 @@
-import Pizza from "./Pizza.jsx";
+import type { PizzaData } from "../types/PizzaData";
+import Pizza from "./Pizza";
 
-const pizzaData = [
+const pizzaData: PizzaData[] = [
   {
     name: "Focaccia",
     ingredients: "Bread with italian olive oil and rosemary",
@@ -47,7 +48,6 @@ const pizzaData = [
 
 function Menu() {
   const pizzas = pizzaData;
-  // const pizzas = [];
   const numPizzas = pizzas.length;
 
   return (
@@ -63,7 +63,7 @@ function Menu() {
 
           <ul className="pizzas">
             {pizzas.map((pizza) => (
-              <Pizza pizzaObj={pizza} key={pizza.name} />
+              <Pizza pizza={pizza} key={pizza.name} />
             ))}
           </ul>
         </>
