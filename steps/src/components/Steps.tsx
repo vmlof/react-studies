@@ -1,33 +1,14 @@
 import { useState } from "react";
-import "./App.css";
+import Button from "./Button";
+import StepMessage from "./StepMessage";
 
-const messages = [
-  "Learn React ⚛️",
-  "Apply for jobs 💼",
-  "Invest your new income 🤑",
-];
+type StepsProps = {
+  messages: string[];
+};
 
-function App() {
-  return (
-    <div>
-      <Steps />
-      <StepMessage step={1}>
-        <p>Pass in content</p>
-        <p>✌️</p>
-      </StepMessage>
-      <StepMessage step={2}>
-        <p>Read children prop</p>
-        <p>😎</p>
-      </StepMessage>
-    </div>
-  );
-}
-
-function Steps() {
+function Steps({ messages }: StepsProps) {
   const [step, setStep] = useState(1);
   const [isOpen, setIsOpen] = useState(true);
-
-  // const [test, setTest] = useState({ name: "Jonas" });
 
   function handlePrevious() {
     if (step > 1) setStep((s) => s - 1);
@@ -36,10 +17,8 @@ function Steps() {
   function handleNext() {
     if (step < 3) {
       setStep((s) => s + 1);
-      setStep((s) => s + 1);
     }
   }
-  // setTest({ name: "Fred" });
 
   return (
     <div>
@@ -67,7 +46,6 @@ function Steps() {
               </Button>
             </div>
           </StepMessage>
-
           <div className="buttons">
             <Button bgColor="#7950f2" textColor="#fff" onClick={handlePrevious}>
               <span>👈</span> Previous
@@ -82,24 +60,4 @@ function Steps() {
   );
 }
 
-function StepMessage({ step, children }) {
-  return (
-    <p className="message">
-      <h3>Step {step}</h3>
-      {children}
-    </p>
-  );
-}
-
-function Button({ textColor, bgColor, onClick, children }) {
-  return (
-    <button
-      style={{ backgroundColor: bgColor, color: textColor }}
-      onClick={onClick}
-    >
-      {children}
-    </button>
-  );
-}
-
-export default App;
+export default Steps;
