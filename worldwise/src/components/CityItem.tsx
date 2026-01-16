@@ -13,7 +13,7 @@ const formatDate = (date: string) => {
   }).format(new Date(date));
 };
 
-// flag emojis dor windows
+// flags emojis for windows
 const flagemojiToPNG = (flag: string) => {
   const countryCode = Array.from(flag, (codeUnit) => codeUnit.codePointAt(0)!)
     .map((char) => String.fromCharCode(char - 127397).toLowerCase())
@@ -31,8 +31,8 @@ function CityItem({ city }: CityItemProps) {
     <li className={styles.cityItem}>
       <span className={styles.emoji}>{flagemojiToPNG(emoji)}</span>
       <h3 className={styles.name}>{cityName}</h3>
-      <time className={styles.date}>{formatDate(date)}</time>
-      <button className={styles.deleteBtn}></button>
+      <time className={styles.date}>({formatDate(date)})</time>
+      <button className={styles.deleteBtn}>x</button>
     </li>
   );
 }
