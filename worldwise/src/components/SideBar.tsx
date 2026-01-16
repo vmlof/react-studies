@@ -1,3 +1,4 @@
+import { Outlet } from "react-router";
 import AppNav from "./AppNav";
 import Footer from "./Footer";
 import Logo from "./Logo";
@@ -9,7 +10,7 @@ function SideBar() {
       <Logo />
       <AppNav />
 
-      <p>List of cities</p>
+      <Outlet />
       <Footer company="WorldWise Inc" />
     </div>
   );
