@@ -1,14 +1,27 @@
 import { useEffect, useRef, useState } from "react";
+import type { MovieDetailsData, WatchedMovie } from "../types/types";
 import StarRating from "./StarRating";
-import Loader from "./Loader";
 import { useKey } from "./useKey";
+import Loader from "./Loader";
 
-const KEY = "aff64a50";
+const KEY = import.meta.env.VITE_OMDB_KEY;
 
-function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
-  const [movie, setMovie] = useState({});
+type MovieDetailsProps = {
+  selectedId: string;
+  onCloseMovie: () => void;
+  onAddWatched: (movie: WatchedMovie) => void;
+  watched: WatchedMovie[];
+};
+
+function MovieDetails({
+  selectedId,
+  onCloseMovie,
+  onAddWatched,
+  watched,
+}: MovieDetailsProps) {
+  const [movie, setMovie] = useState<Partial<MovieDetailsData>>({});
   const [isLoading, setIsLoading] = useState(false);
-  const [userRating, setUserRating] = useState("");
+  const [userRating, setUserRating] = useState<number>(0);
 
   const countRef = useRef(0);
 
@@ -35,7 +48,9 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
   } = movie;
 
   function handleAdd() {
-    const newWatchedMovie = {
+    if (!title || !year || !poster || !imdbRating || !runtime) return;
+
+    const newWatchedMovie: WatchedMovie = {
       imdbID: selectedId,
       title,
       year,
@@ -83,7 +98,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
             <button className="btn-back" onClick={onCloseMovie}>
               &larr;
             </button>
-            <img src={poster} alt={`Poster of ${movie}`} />
+            <img src={poster} alt={`Poster of ${title}`} />
             <div className="details-overview">
               <h2>{title}</h2>
               <p>
@@ -130,5 +145,4 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
     </div>
   );
 }
-
 export default MovieDetails;

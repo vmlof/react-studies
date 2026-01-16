@@ -1,29 +1,31 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./App.css";
-import NavBar from "./components/NavBar";
-import Main from "./components/Main";
-import Box from "./components/Box";
-import WatchedSummary from "./components/WatchedSummary";
-import WatchedMoviesList from "./components/WatchedMoviesList";
-import Search from "./components/Search";
-import NumResults from "./components/NumResults";
-import MovieList from "./components/MovieList";
-import MovieDetails from "./components/MovieDetails";
-import Loader from "./components/Loader";
 import { useMovies } from "./components/useMovies";
 import { useLocalStorageState } from "./components/useLocalStorageState";
-
-const KEY = "aff64a50";
+import type { WatchedMovie } from "./types/types";
+import NavBar from "./components/NavBar";
+import Search from "./components/Search";
+import NumResults from "./components/NumResults";
+import Main from "./components/Main";
+import WatchedMoviesList from "./components/WatchedMovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import MovieDetails from "./components/MovieDetails";
+import MovieList from "./components/MovieList";
+import Box from "./components/Box";
+import Loader from "./components/Loader";
 
 function App() {
   const [query, setQuery] = useState("");
-  const [selectedId, setSelectedId] = useState(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const { movies, isLoading, error } = useMovies(query);
 
-  const [watched, setWatched] = useLocalStorageState([], "watched");
+  const [watched, setWatched] = useLocalStorageState<WatchedMovie[]>(
+    [],
+    "watched"
+  );
 
-  function handleSelectedMovie(id) {
+  function handleSelectedMovie(id: string) {
     setSelectedId((selectedId) => (id === selectedId ? null : id));
   }
 
@@ -31,11 +33,11 @@ function App() {
     setSelectedId(null);
   }
 
-  function handleAddWatched(movie) {
+  function handleAddWatched(movie: WatchedMovie) {
     setWatched((watched) => [...watched, movie]);
   }
 
-  function handleDeleteWatched(id) {
+  function handleDeleteWatched(id: string) {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
 
@@ -47,7 +49,6 @@ function App() {
       </NavBar>
       <Main>
         <Box>
-          {/* {isLoading ? <Loader /> : <MovieList movies={movies} />} */}
           {isLoading && <Loader />}
           {!isLoading && !error && (
             <MovieList movies={movies} onSelectedMovie={handleSelectedMovie} />
@@ -79,7 +80,7 @@ function App() {
 
 export default App;
 
-function ErrorMessage({ message }) {
+function ErrorMessage({ message }: { message: string }) {
   return (
     <p className="error">
       <span>⛔</span> {message}

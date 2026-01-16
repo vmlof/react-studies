@@ -1,6 +1,10 @@
 import Logo from "./Logo";
 
-function NavBar({ children }) {
+type NavBarProps = {
+  children: React.ReactNode;
+};
+
+function NavBar({ children }: NavBarProps) {
   return (
     <nav className="nav-bar">
       <Logo />

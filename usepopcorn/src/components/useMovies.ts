@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
+import type { Movie } from "../types/types";
 
-const KEY = "aff64a50";
+const KEY = import.meta.env.VITE_OMDB_KEY;
 
-export function useMovies(query) {
-  const [movies, setMovies] = useState([]);
+export function useMovies(query: string) {
+  const [movies, setMovies] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    // callback?.();
-
     const controller = new AbortController();
 
     async function fetchMovies() {
@@ -30,9 +29,11 @@ export function useMovies(query) {
         setMovies(data.Search);
         setError("");
       } catch (err) {
-        if (err.name !== "AbortError") {
-          console.log(err.message);
-          setError(err.message);
+        if (err instanceof Error) {
+          if (err.name !== "AbortError") {
+            console.log(err.message);
+            setError(err.message);
+          }
         }
       } finally {
         setIsLoading(false);

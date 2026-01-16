@@ -1,12 +1,17 @@
-import { useEffect, useRef } from "react";
+import { useRef, type Dispatch, type SetStateAction } from "react";
 import { useKey } from "./useKey";
 
-function Search({ query, setQuery }) {
-  const inputEl = useRef(null);
+type SearchProps = {
+  query: string;
+  setQuery: Dispatch<SetStateAction<string>>;
+};
+
+function Search({ query, setQuery }: SearchProps) {
+  const inputEl = useRef<HTMLInputElement>(null);
 
   useKey("Enter", () => {
     if (document.activeElement === inputEl.current) return;
-    inputEl.current.focus();
+    inputEl.current?.focus();
     setQuery("");
   });
 

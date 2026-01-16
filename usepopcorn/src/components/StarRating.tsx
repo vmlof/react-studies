@@ -10,6 +10,16 @@ const starContainerStyle = {
   display: "flex",
 };
 
+type StarRatingProps = {
+  maxRating?: number;
+  color?: string;
+  size?: number;
+  className?: string;
+  messages?: string[];
+  defaultRaiting?: number;
+  onSetRating?: (rating: number) => void;
+};
+
 function StarRating({
   maxRating = 5,
   color = "#fcc419",
@@ -18,13 +28,13 @@ function StarRating({
   messages = [],
   defaultRaiting = 0,
   onSetRating,
-}) {
+}: StarRatingProps) {
   const [rating, setRating] = useState(defaultRaiting);
   const [tempRating, setTempRating] = useState(0);
 
-  function handleRating(rating) {
+  function handleRating(rating: number) {
     setRating(rating);
-    onSetRating(rating);
+    if (onSetRating) onSetRating(rating);
   }
 
   const textStyle = {
@@ -58,7 +68,16 @@ function StarRating({
   );
 }
 
-function Star({ onRate, full, onHoverIn, onHoverOut, color, size }) {
+type StarProps = {
+  onRate: () => void;
+  full: boolean;
+  onHoverIn: () => void;
+  onHoverOut: () => void;
+  color: string;
+  size: number;
+};
+
+function Star({ onRate, full, onHoverIn, onHoverOut, color, size }: StarProps) {
   const starStyle = {
     width: `${size}px`,
     height: `${size}px`,

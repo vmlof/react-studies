@@ -1,8 +1,12 @@
-import { useState } from "react";
+import type { Movie as MovieType } from "../types/types";
 import Movie from "./Movie";
 
-//temp movies
-function MovieList({ movies, onSelectedMovie }) {
+type MovieListProps = {
+  movies: MovieType[];
+  onSelectedMovie: (id: string) => void;
+};
+
+function MovieList({ movies, onSelectedMovie }: MovieListProps) {
   return (
     <ul className="list list-movies">
       {movies?.map((movie) => (
@@ -15,5 +19,4 @@ function MovieList({ movies, onSelectedMovie }) {
     </ul>
   );
 }
-
 export default MovieList;

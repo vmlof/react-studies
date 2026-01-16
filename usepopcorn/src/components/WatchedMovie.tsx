@@ -1,4 +1,11 @@
-function WatchMovie({ movie, onDeleteWatched }) {
+import type { WatchedMovie } from "../types/types";
+
+type WatchMovieProps = {
+  movie: WatchedMovie;
+  onDeleteWatched: (id: string) => void;
+};
+
+function WatchMovie({ movie, onDeleteWatched }: WatchMovieProps) {
   return (
     <li>
       <img src={movie.poster} alt={`${movie.title} poster`} />
@@ -27,5 +34,4 @@ function WatchMovie({ movie, onDeleteWatched }) {
     </li>
   );
 }
-
 export default WatchMovie;
