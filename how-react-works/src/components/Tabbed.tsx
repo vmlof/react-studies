@@ -1,9 +1,14 @@
 import { useState } from "react";
+import type { ContentItem } from "../types/types";
 import Tab from "./Tab";
 import TabContent from "./TabContent";
 import DifferentContent from "./DifferentContent";
 
-function Tabbed({ content }) {
+interface TabbedProps {
+  content: ContentItem[];
+}
+
+export default function Tabbed({ content }: TabbedProps) {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
@@ -17,8 +22,8 @@ function Tabbed({ content }) {
 
       {activeTab <= 2 ? (
         <TabContent
-          item={content.at(activeTab)}
-          key={content.at(activeTab).summary}
+          item={content.at(activeTab)!}
+          key={content.at(activeTab)!.summary}
         />
       ) : (
         <DifferentContent />
@@ -26,5 +31,3 @@ function Tabbed({ content }) {
     </div>
   );
 }
-
-export default Tabbed;

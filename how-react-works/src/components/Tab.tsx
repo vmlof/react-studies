@@ -1,4 +1,10 @@
-function Tab({ num, activeTab, onClick }) {
+type TabProps = {
+  num: number;
+  activeTab: number;
+  onClick: (num: number) => void;
+};
+
+export default function Tab({ num, activeTab, onClick }: TabProps) {
   return (
     <button
       className={activeTab === num ? "tab active" : "tab"}
@@ -8,5 +14,3 @@ function Tab({ num, activeTab, onClick }) {
     </button>
   );
 }
-
-export default Tab;

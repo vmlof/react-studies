@@ -1,6 +1,11 @@
 import { useState } from "react";
+import type { ContentItem } from "../types/types";
 
-function TabContent({ item }) {
+type TabContentProps = {
+  item: ContentItem;
+};
+
+export default function TabContent({ item }: TabContentProps) {
   const [showDetails, setShowDetails] = useState(true);
   const [likes, setLikes] = useState(0);
 
@@ -51,5 +56,3 @@ function TabContent({ item }) {
     </div>
   );
 }
-
-export default TabContent;

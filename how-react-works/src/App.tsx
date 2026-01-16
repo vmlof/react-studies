@@ -1,7 +1,8 @@
 import "./App.css";
 import Tabbed from "./components/Tabbed";
+import type { ContentItem } from "./types/types";
 
-const content = [
+const content: ContentItem[] = [
   {
     summary: "React is a library for building UIs",
     details:
