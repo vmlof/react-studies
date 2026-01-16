@@ -1,11 +1,12 @@
 import { useState } from "react";
 import "./App.css";
-import FriendsList from "./components/FriendsList";
-import FormAddFriend from "./components/FormAddFriend";
-import Button from "./components/Button";
-import FormSplitBill from "./components/FormSplitBill";
+import type { Friend } from "./types/Friend";
+import FriendsList from "./Components/FriendsList";
+import FormAddFriend from "./Components/FormAddFriend";
+import Button from "./Components/Button";
+import FormSplitBill from "./Components/FormSplitBill";
 
-const initialFriends = [
+const initialFriends: Friend[] = [
   {
     id: 118836,
     name: "Clark",
@@ -27,28 +28,28 @@ const initialFriends = [
 ];
 
 function App() {
-  const [friends, setFriends] = useState(initialFriends);
+  const [friends, setFriends] = useState<Friend[]>(initialFriends);
   const [showAddFriend, setShowAddFriend] = useState(false);
-  const [selectedFriend, setSelectFriend] = useState(null);
+  const [selectedFriend, setSelectFriend] = useState<Friend | null>(null);
 
   function handleShowAddFriend() {
     setShowAddFriend((show) => !show);
   }
 
-  function handleAddFriend(friend) {
+  function handleAddFriend(friend: Friend) {
     setFriends((friends) => [...friends, friend]);
     setShowAddFriend(false);
   }
 
-  function handleSelection(friend) {
+  function handleSelection(friend: Friend) {
     setSelectFriend((curl) => (curl?.id === friend.id ? null : friend));
     setShowAddFriend(false);
   }
 
-  function handleSplitBill(value) {
+  function handleSplitBill(value: number) {
     setFriends((friends) =>
       friends.map((friend) =>
-        friend.id === selectedFriend.id
+        friend.id === selectedFriend?.id
           ? { ...friend, balance: friend.balance + value }
           : friend
       )

@@ -1,17 +1,30 @@
 import { useState } from "react";
+import type { Friend } from "../types/Friend";
 import Button from "./Button";
 
-function FormSplitBill({ selectedFriend, onSplitBill }) {
-  const [bill, setBill] = useState("");
-  const [paidByUser, setPaidByUser] = useState("");
-  const paidByFriend = bill ? bill - paidByUser : "";
-  const [whoIsPaying, setWhoIsPaying] = useState("user");
+type FormSplitBillProps = {
+  selectedFriend: Friend;
+  onSplitBill: (value: number) => void;
+};
 
-  function handleSubmit(e) {
+function FormSplitBill({ selectedFriend, onSplitBill }: FormSplitBillProps) {
+  const [bill, setBill] = useState<string | number>("");
+  const [paidByUser, setPaidByUser] = useState<string | number>("");
+
+  const billValue = Number(bill);
+  const paidByUserValue = Number(paidByUser);
+  const paidByFriend = bill ? billValue - paidByUserValue : "";
+
+  const [whoIsPaying, setWhoIsPaying] = useState<"user" | "friend">("user");
+
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     if (!bill || !paidByUser) return;
-    onSplitBill(whoIsPaying === "user" ? paidByFriend : -paidByUser);
+
+    onSplitBill(
+      whoIsPaying === "user" ? Number(paidByFriend) : -paidByUserValue
+    );
   }
 
   return (
@@ -31,7 +44,9 @@ function FormSplitBill({ selectedFriend, onSplitBill }) {
         value={paidByUser}
         onChange={(e) =>
           setPaidByUser(
-            Number(e.target.value) > bill ? paidByUser : Number(e.target.value)
+            Number(e.target.value) > billValue
+              ? paidByUser
+              : Number(e.target.value)
           )
         }
       />
@@ -42,7 +57,7 @@ function FormSplitBill({ selectedFriend, onSplitBill }) {
       <label>🤑 Who is paying the bill</label>
       <select
         value={whoIsPaying}
-        onChange={(e) => setWhoIsPaying(e.target.value)}
+        onChange={(e) => setWhoIsPaying(e.target.value as "user" | "friend")}
       >
         <option value="user">You</option>
         <option value="friend">{selectedFriend.name}</option>

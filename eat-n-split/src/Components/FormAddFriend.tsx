@@ -1,17 +1,23 @@
 import { useState } from "react";
+import type { Friend as Friend } from "../types/Friend";
 import Button from "./Button";
 
-function FormAddFriend({ onAddFriend }) {
+type FormAddFriendProps = {
+  onAddFriend: (friend: Friend) => void;
+};
+
+function FormAddFriend({ onAddFriend }: FormAddFriendProps) {
   const [name, setName] = useState("");
   const [image, setImage] = useState("https://i.pravatar.cc/48");
 
-  function handleSubmit(e) {
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     if (!name || !image) return;
 
-    const id = crypto.randomUUID;
-    const newFriend = {
+    const id = crypto.randomUUID();
+
+    const newFriend: Friend = {
       id,
       name,
       image: `${image}?=${id}`,

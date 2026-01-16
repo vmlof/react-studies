@@ -1,6 +1,17 @@
+import type { Friend as FriendType } from "../types/Friend";
 import Friend from "./Friend";
 
-function FriendsList({ friends, onSelection, selectedFriend }) {
+type FriendsListProps = {
+  friends: FriendType[];
+  onSelection: (friend: FriendType) => void;
+  selectedFriend: FriendType | null;
+};
+
+function FriendsList({
+  friends,
+  onSelection,
+  selectedFriend,
+}: FriendsListProps) {
   return (
     <ul>
       {friends.map((friend) => (
