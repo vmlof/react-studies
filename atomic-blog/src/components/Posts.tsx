@@ -1,14 +1,14 @@
 import type { Post } from "../types";
 import List from "./List";
 
-type PostsProps = {
-  posts: Post[];
-};
+// type PostsProps = {
+//   posts: Post[];
+// };
 
-export default function Posts({ posts }: PostsProps) {
+export default function Posts() {
   return (
     <section>
-      <List posts={posts} />
+      <List />
     </section>
   );
 }

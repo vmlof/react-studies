@@ -1,32 +1,28 @@
-import type { Dispatch, SetStateAction } from "react";
+import { useContext, type Dispatch, type SetStateAction } from "react";
 import type { Post } from "../types";
 import SearchPosts from "./SearchPosts";
 import Results from "./Results";
+import { PostContext } from "../App";
 
-type HeaderProps = {
-  posts: Post[];
-  onClearPosts: () => void;
-  searchQuery: string;
-  setSearchQuery: Dispatch<SetStateAction<string>>;
-};
+// type HeaderProps = {
+//   posts: Post[];
+//   onClearPosts: () => void;
+//   searchQuery: string;
+//   setSearchQuery: Dispatch<SetStateAction<string>>;
+// };
 
-export default function Header({
-  posts,
-  onClearPosts,
-  searchQuery,
-  setSearchQuery,
-}: HeaderProps) {
+export default function Header() {
+  // 3) CONSUMING CONTEXT VALUE
+  const { onClearPosts } = useContext(PostContext)!;
+
   return (
     <header>
       <h1>
         <span>⚛️</span>The Atomic Blog
       </h1>
       <div>
-        <Results posts={posts} />
-        <SearchPosts
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-        />
+        <Results />
+        <SearchPosts />
         <button onClick={onClearPosts}>Clear posts</button>
       </div>
     </header>

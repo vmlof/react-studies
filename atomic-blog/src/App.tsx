@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
-import type { Post } from "./types";
+import { createContext, useEffect, useState } from "react";
+import type { Post, PostContextType } from "./types";
 import { createRandomPost } from "./utils";
 import Header from "./components/Header";
 import Main from "./components/Main";
 import Archive from "./components/Archive";
 import Footer from "./components/Footer";
+
+// 1) CREATE A CONTEXT
+export const PostContext = createContext<PostContextType | null>(null);
 
 function App() {
   const [posts, setPosts] = useState<Post[]>(() =>
@@ -41,24 +44,30 @@ function App() {
   );
 
   return (
-    <section>
-      <button
-        onClick={() => setIsFakeDark((isFakeDark) => !isFakeDark)}
-        className="btn-fake-dark-mode"
-      >
-        {isFakeDark ? "☀️" : "🌙"}
-      </button>
+    // 2) PROVIDE VALUE TO CHILD COMPONENTS
+    <PostContext.Provider
+      value={{
+        posts: searchedPosts,
+        onAddPost: handleAddPost,
+        onClearPosts: handleClearPosts,
+        searchQuery,
+        setSearchQuery,
+      }}
+    >
+      <section>
+        <button
+          onClick={() => setIsFakeDark((isFakeDark) => !isFakeDark)}
+          className="btn-fake-dark-mode"
+        >
+          {isFakeDark ? "☀️" : "🌙"}
+        </button>
 
-      <Header
-        posts={searchedPosts}
-        onClearPosts={handleClearPosts}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-      />
-      <Main posts={searchedPosts} onAddPost={handleAddPost} />
-      <Archive onAddPost={handleAddPost} />
-      <Footer />
-    </section>
+        <Header />
+        <Main />
+        <Archive />
+        <Footer />
+      </section>
+    </PostContext.Provider>
   );
 }
 
