@@ -1,13 +1,13 @@
 import { useContext } from "react";
 import type { Post } from "../types";
-import { PostContext } from "../App";
+import { usePosts } from "./PostProvider";
 
 // type ListProps = {
 //   posts: Post[];
 // };
 
 export default function List() {
-  const { posts } = useContext(PostContext)!;
+  const { posts } = usePosts()!;
 
   return (
     <ul>

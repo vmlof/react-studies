@@ -2,7 +2,7 @@ import { useContext, type Dispatch, type SetStateAction } from "react";
 import type { Post } from "../types";
 import SearchPosts from "./SearchPosts";
 import Results from "./Results";
-import { PostContext } from "../App";
+import { usePosts } from "./PostProvider";
 
 // type HeaderProps = {
 //   posts: Post[];
@@ -13,7 +13,7 @@ import { PostContext } from "../App";
 
 export default function Header() {
   // 3) CONSUMING CONTEXT VALUE
-  const { onClearPosts } = useContext(PostContext)!;
+  const { onClearPosts } = usePosts()!;
 
   return (
     <header>

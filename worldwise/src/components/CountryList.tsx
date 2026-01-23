@@ -3,6 +3,7 @@ import Message from "./Message";
 import Spinner from "./Spinner";
 import styles from "./CountryList.module.css";
 import CountryItem from "./CountryItem";
+import { useCities } from "../contexts/CitiesProvider";
 
 type CountryListProps = {
   cities: City[];
@@ -14,7 +15,9 @@ interface Country {
   emoji: string;
 }
 
-function CountryList({ cities, isLoading }: CountryListProps) {
+function CountryList() {
+  const { cities, isLoading } = useCities()!;
+
   if (isLoading) return <Spinner />;
 
   if (!cities.length) {

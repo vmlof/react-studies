@@ -1,3 +1,5 @@
+import City from "./components/City";
+
 interface Position {
   lat: number;
   lng: number;
@@ -11,4 +13,9 @@ export interface City {
   notes: string;
   position: Position;
   id: string;
+}
+
+export interface CitiesContextType {
+  cities: City[];
+  isLoading: boolean;
 }

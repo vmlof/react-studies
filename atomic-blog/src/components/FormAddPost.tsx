@@ -1,13 +1,13 @@
 import { useContext, useState, type FormEvent } from "react";
 import type { Post } from "../types";
-import { PostContext } from "../App";
+import { usePosts } from "./PostProvider";
 
 // type FormAddPostProps = {
 //   onAddPost: (post: Post) => void;
 // };
 
 export default function FormAddPost() {
-  const { onAddPost } = useContext(PostContext)!;
+  const { onAddPost } = usePosts()!;
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 

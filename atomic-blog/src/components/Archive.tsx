@@ -1,14 +1,14 @@
 import { useContext, useState } from "react";
 import type { Post } from "../types";
 import { createRandomPost } from "../utils";
-import { PostContext } from "../App";
+import { usePosts } from "./PostProvider";
 
 // type ArchiveProps = {
 //   onAddPost: (post: Post) => void;
 // };
 
 export default function Archive() {
-  const { onAddPost } = useContext(PostContext)!;
+  const { onAddPost } = usePosts()!;
   // Here we don't need the setter function. We're only using state to store
   // these posts because the callback function passed into useState (which generates the posts)
   // is only called once, on the initial render. So we use this trick as an optimization technique,
