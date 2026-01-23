@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import type { City } from "../types";
 import styles from "./CityItem.module.css";
+import { useCities } from "../contexts/CitiesProvider";
 
 type CityItemProps = {
   city: City;
@@ -26,6 +27,7 @@ const flagemojiToPNG = (flag: string) => {
 };
 
 function CityItem({ city }: CityItemProps) {
+  const { currentCity } = useCities()!;
   const { cityName, emoji, date, id, position } = city;
 
   console.log(position);
@@ -33,7 +35,7 @@ function CityItem({ city }: CityItemProps) {
   return (
     <li>
       <Link
-        className={styles.cityItem}
+        className={`${styles.cityItem} ${id === currentCity?.id ? styles["cityItem--active"] : ""}`}
         to={`${id}?lat=${position.lat}&lng=${position.lng}`}
       >
         <span className={styles.emoji}>{flagemojiToPNG(emoji)}</span>

@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import type { CitiesContextType, City } from "../types";
+import { data } from "react-router";
 
 type CitiesContextProps = {
   children: React.ReactNode;
@@ -12,6 +13,7 @@ const CitiesContext = createContext<CitiesContextType | null>(null);
 function CitiesProvider({ children }: CitiesContextProps) {
   const [cities, setCities] = useState<City[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentCity, setCurrentCity] = useState<City | null>(null);
 
   useEffect(() => {
     async function fetchCities() {
@@ -29,11 +31,27 @@ function CitiesProvider({ children }: CitiesContextProps) {
     fetchCities();
   }, []);
 
+  async function getCity(id: string) {
+    // attention
+    try {
+      setIsLoading(true);
+      const res = await fetch(`${BASE_URL}/cities/${id}`);
+      const data: City = await res.json();
+      setCurrentCity(data);
+    } catch {
+      alert("There was an error loading data...");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <CitiesContext.Provider
       value={{
         cities,
         isLoading,
+        currentCity,
+        getCity,
       }}
     >
       {children}

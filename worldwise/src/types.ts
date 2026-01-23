@@ -18,4 +18,6 @@ export interface City {
 export interface CitiesContextType {
   cities: City[];
   isLoading: boolean;
+  currentCity: City | null;
+  getCity: (id: string) => void;
 }
