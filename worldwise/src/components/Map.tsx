@@ -13,6 +13,7 @@ import { useCities } from "../contexts/CitiesProvider";
 import type { LatLngExpression, LeafletMouseEvent } from "leaflet";
 import { useGeolocation } from "../hooks/useGeolocation";
 import Button from "./Button";
+import { useUrlPosition } from "../hooks/useUrlPosition";
 
 // flags emojis for windows
 const flagemojiToPNG = (flag: string) => {
@@ -28,15 +29,13 @@ const flagemojiToPNG = (flag: string) => {
 function Map() {
   const { cities } = useCities();
   const [mapPosition, setMapPosition] = useState<LatLngExpression>([40, 0]);
-  const [searchParams] = useSearchParams();
   const {
     isLoading: isLoadingPosition,
     position: geolocationPosition,
     getPosition,
   } = useGeolocation();
 
-  const mapLat: string | null = searchParams.get("lat");
-  const mapLng: string | null = searchParams.get("lng");
+  const [mapLat, mapLng] = useUrlPosition();
 
   useEffect(() => {
     if (mapLat && mapLng) setMapPosition([Number(mapLat), Number(mapLng)]);
@@ -44,7 +43,7 @@ function Map() {
 
   useEffect(() => {
     if (geolocationPosition)
-      setMapPosition([geolocationPosition.lng, geolocationPosition.lat]);
+      setMapPosition([geolocationPosition.lat, geolocationPosition.lng]);
   }, [geolocationPosition]);
 
   return (
@@ -97,7 +96,7 @@ function DetectClick() {
 
   useMapEvents({
     click: (e: LeafletMouseEvent) =>
-      navigate(`form?lat=${e.latlng.lat}%lng=${e.latlng.lng}`),
+      navigate(`form?lat=${e.latlng.lat}&lng=${e.latlng.lng}`),
   });
 
   return null;
