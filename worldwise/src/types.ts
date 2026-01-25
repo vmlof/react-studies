@@ -1,5 +1,3 @@
-import City from "./components/City";
-
 interface Position {
   lat: number;
   lng: number;
@@ -15,11 +13,15 @@ export interface City {
   id: string;
 }
 
+export type NewCity = Omit<City, "id">;
+
 export interface CitiesContextType {
   cities: City[];
   isLoading: boolean;
   currentCity: City | null;
   getCity: (id: string) => void;
+  createCity: (newCity: NewCity) => void;
+  deleteCity: (id: string) => void;
 }
 
 export interface LocalityDetail {

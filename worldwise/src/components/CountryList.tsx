@@ -5,10 +5,10 @@ import styles from "./CountryList.module.css";
 import CountryItem from "./CountryItem";
 import { useCities } from "../contexts/CitiesProvider";
 
-type CountryListProps = {
-  cities: City[];
-  isLoading: boolean;
-};
+// type CountryListProps = {
+//   cities: City[];
+//   isLoading: boolean;
+// };
 
 interface Country {
   country: string;
