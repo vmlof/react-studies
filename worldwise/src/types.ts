@@ -16,12 +16,13 @@ export interface City {
 export type NewCity = Omit<City, "id">;
 
 export interface CitiesContextType {
-  cities: City[];
+  cities: City[] | null;
   isLoading: boolean;
   currentCity: City | null;
   getCity: (id: string) => void;
   createCity: (newCity: NewCity) => void;
   deleteCity: (id: string) => void;
+  error: string;
 }
 
 export interface LocalityDetail {
