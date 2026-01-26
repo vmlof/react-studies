@@ -11,7 +11,7 @@ import type { GeolocationResponse, NewCity } from "../types";
 import Message from "./Message";
 import Spinner from "./Spinner";
 import DatePicker from "react-datepicker";
-import { useCities } from "../contexts/CitiesProvider";
+import { useCities } from "../contexts/CitiesContext";
 import { useNavigate } from "react-router";
 
 export function convertToEmoji(countryCode: string) {

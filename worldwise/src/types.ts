@@ -16,13 +16,27 @@ export interface City {
 export type NewCity = Omit<City, "id">;
 
 export interface CitiesContextType {
-  cities: City[] | null;
+  cities: City[];
   isLoading: boolean;
   currentCity: City | null;
   getCity: (id: string) => void;
   createCity: (newCity: NewCity) => void;
   deleteCity: (id: string) => void;
   error: string;
+}
+
+export interface User {
+  name: string;
+  email: string;
+  password: string;
+  avatar: string;
+}
+
+export interface AuthContextType {
+  user: User | null;
+  isAuthenticated: boolean;
+  login: (email: string, password: string) => void;
+  logout: () => void;
 }
 
 export interface LocalityDetail {

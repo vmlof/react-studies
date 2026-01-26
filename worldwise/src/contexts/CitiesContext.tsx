@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useReducer,
-  useState,
-} from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import type { CitiesContextType, City, NewCity } from "../types";
 
 type CitiesContextProps = {
@@ -12,7 +6,7 @@ type CitiesContextProps = {
 };
 
 interface State {
-  cities: City[] | null;
+  cities: City[];
   isLoading: boolean;
   currentCity: City | null;
   error: string;
@@ -27,7 +21,7 @@ type Action =
   | { type: "city/loaded"; payload: City };
 
 const initialState: State = {
-  cities: null,
+  cities: [],
   isLoading: false,
   currentCity: null,
   error: "",
@@ -49,15 +43,14 @@ function reducer(state: State, action: Action): State {
       return {
         ...state,
         isLoading: false,
-        cities: [...state.cities!, action.payload],
+        cities: [...state.cities, action.payload],
         currentCity: action.payload,
       };
     case "city/deleted":
       return {
         ...state,
         isLoading: false,
-        cities:
-          state.cities?.filter((city) => city.id !== action.payload) ?? null,
+        cities: state.cities.filter((city) => city.id !== action.payload),
         currentCity: null,
       };
     case "rejected":

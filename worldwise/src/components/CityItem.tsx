@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import type { City } from "../types";
 import styles from "./CityItem.module.css";
-import { useCities } from "../contexts/CitiesProvider";
+import { useCities } from "../contexts/CitiesContext";
 
 type CityItemProps = {
   city: City;
