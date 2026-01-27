@@ -5,132 +5,15 @@ import Header from "./components/Header";
 import Loader from "./components/Loader";
 import ErrorMessage from "./components/ErrorMessage";
 import StartScreen from "./components/StartScreen";
-import Question from "./components/Question";
 import NextButton from "./components/NextButton";
 import Progres from "./components/Progres";
 import FinishScreen from "./components/FinishScreen";
 import Footer from "./components/Footer";
 import Timer from "./components/Timer";
 
-export interface IQuestion {
-  question: string;
-  options: string[];
-  correctOption: number;
-  points: number;
-  id: number;
-}
-
-interface State {
-  questions: IQuestion[];
-  status: "loading" | "error" | "ready" | "active" | "finished";
-  index: number;
-  answer: number | null;
-  points: number;
-  highscore: number;
-  secondsRemaining: number | null;
-}
-
-export type Action =
-  | { type: "dataReceived"; payload: IQuestion[] }
-  | { type: "dataFailed" }
-  | { type: "start" }
-  | { type: "newAnswer"; payload: number }
-  | { type: "nextQuestion" }
-  | { type: "finish" }
-  | { type: "restart" }
-  | { type: "tick" };
-
-const initialState: State = {
-  questions: [],
-  status: "loading",
-  index: 0,
-  answer: null,
-  points: 0,
-  highscore: 0,
-  secondsRemaining: null,
-};
-
-const SECS_PER_QUESTION: number = 30;
-
-function reducer(state: State, action: Action): State {
-  switch (action.type) {
-    case "dataReceived": {
-      return { ...state, questions: action.payload, status: "ready" };
-    }
-    case "dataFailed": {
-      return { ...state, status: "error" };
-    }
-    case "start": {
-      return {
-        ...state,
-        status: "active",
-        secondsRemaining: state.questions.length * SECS_PER_QUESTION,
-      };
-    }
-    case "newAnswer": {
-      const question: IQuestion = state.questions.at(state.index)!;
-
-      return {
-        ...state,
-        answer: action.payload,
-        points:
-          action.payload === question.correctOption
-            ? state.points + question.points
-            : state.points,
-      };
-    }
-    case "nextQuestion": {
-      return { ...state, index: state.index + 1, answer: null };
-    }
-    case "finish": {
-      return {
-        ...state,
-        status: "finished",
-        highscore:
-          state.points > state.highscore ? state.points : state.highscore,
-      };
-    }
-    case "restart": {
-      return { ...initialState, questions: state.questions, status: "ready" };
-    }
-    case "tick": {
-      return {
-        ...state,
-        secondsRemaining: state.secondsRemaining! - 1,
-        status: state.secondsRemaining === 0 ? "finished" : state.status,
-      };
-    }
-    default:
-      throw new Error("Action unknown");
-  }
-}
+import Question from "./components/Question";
 
 function App() {
-  const [
-    { questions, status, index, answer, points, highscore, secondsRemaining },
-    dispatch,
-  ] = useReducer(reducer, initialState);
-
-  const numQuestions: number = questions.length;
-  const maxPossiblePoints: number = questions.reduce(
-    (prev, cur) => prev + cur.points,
-    0
-  );
-
-  useEffect(() => {
-    const fetchQuestions = async () => {
-      try {
-        const response = await fetch("http://localhost:8000/questions");
-        const data: IQuestion[] = await response.json();
-        dispatch({ type: "dataReceived", payload: data });
-      } catch (err) {
-        dispatch({ type: "dataFailed" });
-      }
-    };
-
-    fetchQuestions();
-  }, []);
-
   return (
     <div className="app">
       <Header />
