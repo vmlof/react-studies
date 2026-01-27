@@ -1,6 +1,6 @@
 import { useContext, useState, type FormEvent } from "react";
 import type { Post } from "../types";
-import { usePosts } from "./PostProvider";
+import { usePosts } from "./PostContext";
 
 // type FormAddPostProps = {
 //   onAddPost: (post: Post) => void;

@@ -2,7 +2,7 @@ import { useContext, type Dispatch, type SetStateAction } from "react";
 import type { Post } from "../types";
 import SearchPosts from "./SearchPosts";
 import Results from "./Results";
-import { usePosts } from "./PostProvider";
+import { usePosts } from "./PostContext";
 
 // type HeaderProps = {
 //   posts: Post[];

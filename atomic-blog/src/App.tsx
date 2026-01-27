@@ -1,12 +1,10 @@
-import { createContext, useEffect, useState } from "react";
-import type { Post, PostContextType } from "./types";
-import { createRandomPost } from "./utils";
+import { useEffect, useState } from "react";
 import Header from "./components/Header";
-import Main from "./components/Main";
+import { Main } from "./components/Main";
 import Archive from "./components/Archive";
 import Footer from "./components/Footer";
 
-import { PostProvider } from "./components/PostProvider";
+import { PostProvider } from "./components/PostContext";
 function App() {
   const [isFakeDark, setIsFakeDark] = useState(false);
 

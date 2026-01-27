@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
 import type { Post, PostContextType } from "./types";
 import { createRandomPost } from "./utils";
 import Header from "./components/Header";
@@ -42,6 +42,14 @@ function App() {
     },
     [isFakeDark],
   );
+
+  //useMemo
+  // const archiveOptions = useMemo(() => {
+  //   return {
+  //     show: false,
+  //     title: `Post archive in addition to ${posts.length} main posts`,
+  //   };
+  // }, [posts.length]);
 
   return (
     // 2) PROVIDE VALUE TO CHILD COMPONENTS

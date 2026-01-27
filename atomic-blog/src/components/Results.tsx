@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import type { Post } from "../types";
-import { usePosts } from "./PostProvider";
+import { usePosts } from "./PostContext";
 
 // type ResultsProps = {
 //   posts: Post[];

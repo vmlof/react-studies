@@ -1,17 +1,12 @@
-import type { Post } from "../types";
+import { memo } from "react";
 import FormAddPost from "./FormAddPost";
 import Posts from "./Posts";
 
-// type MainProps = {
-//   posts: Post[];
-//   onAddPost: (post: Post) => void;
-// };
-
-export default function Main() {
+export const Main = memo(function Main() {
   return (
     <main>
       <FormAddPost />
       <Posts />
     </main>
   );
-}
+});
