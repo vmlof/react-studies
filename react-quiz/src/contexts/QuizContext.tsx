@@ -117,6 +117,25 @@ function QuizProvider({ children }: QuizProviderProps) {
 
     fetchQuestions();
   }, []);
+
+  return (
+    <QuizContext.Provider
+      value={{
+        questions,
+        status,
+        index,
+        answer,
+        points,
+        highscore,
+        secondsRemaining,
+        numQuestions,
+        maxPossiblePoints,
+        dispatch,
+      }}
+    >
+      {children}
+    </QuizContext.Provider>
+  );
 }
 
 function UseQuiz() {
