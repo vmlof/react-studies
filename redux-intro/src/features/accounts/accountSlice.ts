@@ -1,27 +1,37 @@
-interface State {
+interface AccountState {
   balance: number;
   loan: number;
   loanPurpose: string;
 }
 
-// type AccountAction =
-//   | { type: "account/deposit"; payload: number }
-//   | { type: "account/withdraw"; payload: number }
-//   | {
-//       type: "account/requestLoan";
-//       payload: { amount: number; purpose: string };
-//     }
-//   | { type: "account/payLoan" };
-
-const initialStateAccount: State = {
+const initialStateAccount: AccountState = {
   balance: 0,
   loan: 0,
   loanPurpose: "",
 };
 
+type AccountDepositWithdraw = {
+  type: "account/deposit" | "account/withdraw";
+  payload: number;
+};
+
+type AccountRequestLoan = {
+  type: "account/requestLoan";
+  payload: { amount: number; purpose: string };
+};
+
+type AccountPayLoan = {
+  type: "account/payLoan";
+};
+
+type AccountAction =
+  | AccountDepositWithdraw
+  | AccountRequestLoan
+  | AccountPayLoan;
+
 export default function AccountReducer(
   state = initialStateAccount,
-  action: any,
+  action: AccountAction,
 ) {
   switch (action.type) {
     case "account/deposit":

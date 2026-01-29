@@ -1,18 +1,30 @@
-interface State {
+interface CustomerState {
   fullName: string;
   nationalID: string;
   createdAt: string;
 }
 
-const initialStateCustomer: State = {
+const initialStateCustomer: CustomerState = {
   fullName: "",
   nationalID: "",
   createdAt: "",
 };
 
+type CreateCustomerAction = {
+  type: "customer/createCustomer";
+  payload: { fullName: string; nationalID: string; createdAt: string };
+};
+
+type UpdateNameAction = {
+  type: "customer/updateName";
+  payload: string;
+};
+
+type CustomerAction = CreateCustomerAction | UpdateNameAction;
+
 export default function customerReducer(
   state = initialStateCustomer,
-  action: any,
+  action: CustomerAction,
 ) {
   switch (action.type) {
     case "customer/createCustomer":
@@ -29,13 +41,16 @@ export default function customerReducer(
   }
 }
 
-export function createCustomer(fullName: string, nationalID: string) {
+export function createCustomer(
+  fullName: string,
+  nationalID: string,
+): CreateCustomerAction {
   return {
     type: "customer/createCustomer",
     payload: { fullName, nationalID, createdAt: new Date().toISOString() },
   };
 }
 
-export function updateName(fullName: string) {
-  return { type: "account/updateName", payload: fullName };
+export function updateName(fullName: string): UpdateNameAction {
+  return { type: "customer/updateName", payload: fullName };
 }
