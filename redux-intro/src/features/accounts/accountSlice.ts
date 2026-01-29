@@ -1,3 +1,5 @@
+import type { Dispatch } from "redux";
+
 interface AccountState {
   balance: number;
   loan: number;
@@ -75,7 +77,7 @@ export default function AccountReducer(
 export function deposit(amount: number, currency: string) {
   if (currency === "USD") return { type: "account/deposit", payload: amount };
 
-  return async function (dispatch, getState) {
+  return async function (dispatch: Dispatch, getState: any) {
     dispatch({ type: "account/convertingCurrency" });
 
     const res = await fetch(
