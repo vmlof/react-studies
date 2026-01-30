@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 interface CustomerState {
   fullName: string;
@@ -26,13 +26,13 @@ const customerSlice = createSlice({
           },
         };
       },
-      reducer(state: CustomerState, action) {
-        state.fullName = action.payload.fullname;
+      reducer(state: CustomerState, action: PayloadAction<CustomerState>) {
+        state.fullName = action.payload.fullName;
         state.nationalID = action.payload.nationalID;
         state.createdAt = action.payload.createdAt;
       },
     },
-    updateName(state: CustomerState, action) {
+    updateName(state: CustomerState, action: PayloadAction<string>) {
       state.fullName = action.payload;
     },
   },
