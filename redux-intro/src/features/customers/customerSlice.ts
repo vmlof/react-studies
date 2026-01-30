@@ -1,56 +1,88 @@
+import { createSlice } from "@reduxjs/toolkit";
+
 interface CustomerState {
   fullName: string;
   nationalID: string;
   createdAt: string;
 }
 
-const initialStateCustomer: CustomerState = {
+const initialState: CustomerState = {
   fullName: "",
   nationalID: "",
   createdAt: "",
 };
 
-type CreateCustomerAction = {
-  type: "customer/createCustomer";
-  payload: { fullName: string; nationalID: string; createdAt: string };
-};
+const customerSlice = createSlice({
+  name: "customer",
+  initialState,
+  reducers: {
+    createCustomer: {
+      prepare(fullName: string, nationalID: string): any {
+        return {
+          payload: {
+            fullName,
+            nationalID,
+            createdAt: new Date().toISOString(),
+          },
+        };
+      },
+      reducer(state: CustomerState, action) {
+        state.fullName = action.payload.fullname;
+        state.nationalID = action.payload.nationalID;
+        state.createdAt = action.payload.createdAt;
+      },
+    },
+    updateName(state: CustomerState, action) {
+      state.fullName = action.payload;
+    },
+  },
+});
 
-type UpdateNameAction = {
-  type: "customer/updateName";
-  payload: string;
-};
+export const { createCustomer, updateName } = customerSlice.actions;
 
-type CustomerAction = CreateCustomerAction | UpdateNameAction;
+export default customerSlice.reducer;
 
-export default function customerReducer(
-  state = initialStateCustomer,
-  action: CustomerAction,
-) {
-  switch (action.type) {
-    case "customer/createCustomer":
-      return {
-        ...state,
-        fullName: action.payload.fullName,
-        nationalID: action.payload.nationalID,
-        createdAt: action.payload.createdAt,
-      };
-    case "customer/updateName":
-      return { ...state, fullName: action.payload };
-    default:
-      return state;
-  }
-}
+// type CreateCustomerAction = {
+//   type: "customer/createCustomer";
+//   payload: { fullName: string; nationalID: string; createdAt: string };
+// };
 
-export function createCustomer(
-  fullName: string,
-  nationalID: string,
-): CreateCustomerAction {
-  return {
-    type: "customer/createCustomer",
-    payload: { fullName, nationalID, createdAt: new Date().toISOString() },
-  };
-}
+// type UpdateNameAction = {
+//   type: "customer/updateName";
+//   payload: string;
+// };
 
-export function updateName(fullName: string): UpdateNameAction {
-  return { type: "customer/updateName", payload: fullName };
-}
+// type CustomerAction = CreateCustomerAction | UpdateNameAction;
+
+// export default function customerReducer(
+//   state = initialStateCustomer,
+//   action: any,
+// ) {
+//   switch (action.type) {
+//     case "customer/createCustomer":
+//       return {
+//         ...state,
+//         fullName: action.payload.fullName,
+//         nationalID: action.payload.nationalID,
+//         createdAt: action.payload.createdAt,
+//       };
+//     case "customer/updateName":
+//       return { ...state, fullName: action.payload };
+//     default:
+//       return state;
+//   }
+// }
+
+// export function createCustomer(
+//   fullName: string,
+//   nationalID: string,
+// ): CreateCustomerAction {
+//   return {
+//     type: "customer/createCustomer",
+//     payload: { fullName, nationalID, createdAt: new Date().toISOString() },
+//   };
+// }
+
+// export function updateName(fullName: string): UpdateNameAction {
+//   return { type: "customer/updateName", payload: fullName };
+// }
