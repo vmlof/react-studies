@@ -25,3 +25,21 @@ export interface IOrder {
   estimatedDelivery: string;
   cart: CartItemItem[];
 }
+
+export interface NewOrder {
+  customer: string;
+  phone: string;
+  address: string;
+  priority: boolean;
+  cart: CartItemItem[];
+}
+
+export interface OrderUpdate {
+  priority?: boolean;
+  status?: string;
+}
+
+export interface GeocodingPosition {
+  latitude: number;
+  longitude: number;
+}

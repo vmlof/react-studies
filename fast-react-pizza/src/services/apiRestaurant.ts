@@ -1,6 +1,8 @@
+import type { IOrder, NewOrder, OrderUpdate, Pizza } from "../types/types";
+
 const API_URL: string = "https://react-fast-pizza-api.jonas.io/api";
 
-export async function getMenu() {
+export async function getMenu(): Promise<Pizza[]> {
   const res = await fetch(`${API_URL}/menu`);
 
   // fetch won't throw error on 400 errors (e.g. when URL is wrong),
@@ -8,19 +10,19 @@ export async function getMenu() {
   // This will then go into the catch block, where the message is set
   if (!res.ok) throw Error("Failed getting menu");
 
-  const { data } = await res.json();
+  const { data }: { data: Pizza[] } = await res.json();
   return data;
 }
 
-export async function getOrder(id) {
+export async function getOrder(id: string): Promise<IOrder> {
   const res = await fetch(`${API_URL}/order/${id}`);
   if (!res.ok) throw Error(`Couldn't find order #${id}`);
 
-  const { data } = await res.json();
+  const { data }: { data: IOrder } = await res.json();
   return data;
 }
 
-export async function createOrder(newOrder) {
+export async function createOrder(newOrder: NewOrder) {
   try {
     const res = await fetch(`${API_URL}/order`, {
       method: "POST",
@@ -31,14 +33,14 @@ export async function createOrder(newOrder) {
     });
 
     if (!res.ok) throw Error();
-    const { data } = await res.json();
+    const { data }: { data: IOrder } = await res.json();
     return data;
   } catch {
     throw Error("Failed creating your order");
   }
 }
 
-export async function updateOrder(id, updateObj) {
+export async function updateOrder(id: string, updateObj: OrderUpdate) {
   try {
     const res = await fetch(`${API_URL}/order/${id}`, {
       method: "PATCH",
