@@ -16,7 +16,7 @@ function MenuItem({ pizza }: MenuItemProps) {
         alt={name}
         className={`h-24 ${soldOut ? "opacity-70 grayscale" : ""}`}
       />
-      <div className="scroll-none flex grow flex-col pt-0.5">
+      <div className="flex grow flex-col pt-0.5">
         <p className="font-medium">{name}</p>
         <p className="text-sm text-stone-500 capitalize italic">
           {ingredients.join(", ")}
