@@ -8,16 +8,6 @@ interface CartState {
 
 const initialState: CartState = {
   cart: [],
-
-  //   cart: [
-  //     {
-  //       pizzaId: 12,
-  //       name: "Mediterranean",
-  //       quantity: 2,
-  //       unitPrice: 16,
-  //       totalPrice: 32,
-  //     },
-  //   ],
 };
 
 const cartSlice = createSlice({
@@ -32,20 +22,23 @@ const cartSlice = createSlice({
       // payload = pizzaId
       state.cart = state.cart.filter((item) => item.pizzaId !== action.payload);
     },
-    // increaseItemQuantity(state, action) {
-    //   // payload = pizzaId
-    //   const item = state.cart.find((item) => item.pizzaId === action.payload);
+    increaseItemQuantity(state, action: PayloadAction<number>) {
+      // payload = pizzaId
+      const item = state.cart.find((item) => item.pizzaId === action.payload);
 
-    //   item.quantity++;
-    //   item.totalPrice = item.quantity * item.unitPrice;
-    // },
-    // decreaseItemQuantity(state, action) {
-    //   // payload = pizzaId
-    //   const item = state.cart.find((item) => item.pizzaId === action.payload);
+      item.quantity++;
+      item.totalPrice = item.quantity * item.unitPrice;
+    },
+    decreaseItemQuantity(state, action: PayloadAction<number>) {
+      // payload = pizzaId
+      const item = state.cart.find((item) => item.pizzaId === action.payload);
 
-    //   item.quantity--;
-    //   item.totalPrice = item.quantity * item.unitPrice;
-    // },
+      item.quantity--;
+      item.totalPrice = item.quantity * item.unitPrice;
+
+      if (item?.quantity === 0)
+        cartSlice.caseReducers.deleteItem(state, action);
+    },
     clearCart(state: CartState) {
       state.cart = [];
     },
@@ -55,14 +48,12 @@ const cartSlice = createSlice({
 export const {
   addItem,
   deleteItem,
-  //   increaseItemQuantity,
-  //   decreaseItemQuantity,
+  increaseItemQuantity,
+  decreaseItemQuantity,
   clearCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
-
-//"reselect lib";
 
 export const getCart = (state: RootState) => state.cart.cart;
 
@@ -74,3 +65,5 @@ export const getTotalCartPrice = (state: RootState) =>
 
 export const getCurrentQuantityById = (id: number) => (state: RootState) =>
   state.cart.cart.find((item) => item.pizzaId === id)?.quantity ?? 0;
+
+//"reselect lib";
