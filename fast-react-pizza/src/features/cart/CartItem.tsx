@@ -1,9 +1,9 @@
-import type { CartItemItem } from "../../types/types";
+import type { CartItem as CartItemType } from "../../types/types";
 import Button from "../../ui/Button";
 import { formatCurrency } from "../../utils/helpers";
 
 interface CartItemProps {
-  item: CartItemItem;
+  item: CartItemType;
 }
 
 function CartItem({ item }: CartItemProps) {

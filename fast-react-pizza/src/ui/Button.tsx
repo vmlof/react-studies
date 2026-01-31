@@ -7,9 +7,10 @@ type ButtonProps = {
   disabled?: boolean;
   to?: string;
   type: ButtonVariant;
+  onClick?: () => void;
 };
 
-function Button({ children, disabled, to, type }: ButtonProps) {
+function Button({ children, disabled, to, type, onClick }: ButtonProps) {
   const base =
     "inline-block rounded-full bg-yellow-400 font-semibold tracking-wide uppercase transition-colors duration-300 hover:bg-yellow-300 focus:bg-yellow-300 focus:ring focus:ring-yellow-300 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed";
 
@@ -25,6 +26,13 @@ function Button({ children, disabled, to, type }: ButtonProps) {
       <Link to={to} className={styles[type]}>
         {children}
       </Link>
+    );
+
+  if (onClick)
+    return (
+      <button onClick={onClick} disabled={disabled} className={styles[type]}>
+        {children}
+      </button>
     );
 
   return (

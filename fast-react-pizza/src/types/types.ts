@@ -7,7 +7,7 @@ export interface Pizza {
   imageUrl: string;
 }
 
-export interface CartItemItem {
+export interface CartItem {
   pizzaId: number;
   name: string;
   quantity: number;
@@ -23,7 +23,7 @@ export interface IOrder {
   priorityPrice: number;
   orderPrice: number;
   estimatedDelivery: string;
-  cart: CartItemItem[];
+  cart: CartItem[];
 }
 
 export interface NewOrder {
@@ -31,7 +31,7 @@ export interface NewOrder {
   phone: string;
   address: string;
   priority: boolean;
-  cart: CartItemItem[];
+  cart: CartItem[];
 }
 
 export interface OrderUpdate {
