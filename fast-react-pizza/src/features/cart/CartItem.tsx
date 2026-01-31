@@ -1,13 +1,13 @@
 import type { CartItem as CartItemType } from "../../types/types";
-import Button from "../../ui/Button";
 import { formatCurrency } from "../../utils/helpers";
+import DeleteItem from "./DeleteItem";
 
 interface CartItemProps {
   item: CartItemType;
 }
 
 function CartItem({ item }: CartItemProps) {
-  const { name, quantity, totalPrice } = item;
+  const { pizzaId, name, quantity, totalPrice } = item;
 
   return (
     <li className="py-3 sm:flex sm:items-center sm:justify-between">
@@ -16,7 +16,7 @@ function CartItem({ item }: CartItemProps) {
       </p>
       <div className="flex items-center justify-between sm:gap-6">
         <p className="text-sm font-bold">{formatCurrency(totalPrice)}</p>
-        <Button type="small">Delete</Button>
+        <DeleteItem pizzaId={pizzaId} />
       </div>
     </li>
   );
