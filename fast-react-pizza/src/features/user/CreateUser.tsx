@@ -1,7 +1,8 @@
 import { useState, type ChangeEvent } from "react";
+import Button from "../../ui/Button";
 
 function CreateUser() {
-  const [username, setUsername] = useState<string>("");
+  const [username, setUsername] = useState("");
 
   function handleSubmit(e: React.SubmitEvent) {
     e.preventDefault();
@@ -21,12 +22,12 @@ function CreateUser() {
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           setUsername(e.target.value)
         }
-        className="w-72"
+        className="input mb-8 w-72"
       />
 
       {username !== "" && (
         <div>
-          <button type="submit">Start ordering</button>
+          <Button type="primary">Start ordering</Button>
         </div>
       )}
     </form>
