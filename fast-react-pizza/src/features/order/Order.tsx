@@ -9,12 +9,13 @@ import {
 } from "../../utils/helpers";
 import OrderItem from "./OrderItem";
 import { useEffect } from "react";
-import type { IOrder } from "../../types/types";
+import type { IOrder, Pizza } from "../../types/types";
+import UpdateOrder from "./UpdateOrder";
 
 function Order() {
   const order: IOrder = useLoaderData();
 
-  const fetcher = useFetcher();
+  const fetcher = useFetcher<Pizza[]>();
 
   useEffect(() => {
     if (!fetcher.data && fetcher.state === "idle") fetcher.load("/menu");
@@ -87,6 +88,8 @@ function Order() {
           To pay on delivery: {formatCurrency(orderPrice + priorityPrice)}
         </p>
       </div>
+
+      {!priority && <UpdateOrder />}
     </div>
   );
 }

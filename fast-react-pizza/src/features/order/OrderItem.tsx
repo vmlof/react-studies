@@ -6,10 +6,12 @@ type OrderItemProps = {
   isLoadingIngredients: boolean;
   ingredients: string[];
 };
-function OrderItem({ item, isLoadingIngredients, ingredients }) {
+function OrderItem({
+  item,
+  isLoadingIngredients,
+  ingredients,
+}: OrderItemProps) {
   const { quantity, name, totalPrice } = item;
-
-  console.log(isLoadingIngredients);
 
   return (
     <li className="space-y-1 py-3">
