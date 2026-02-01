@@ -1,6 +1,8 @@
 import { redirect, type ActionFunctionArgs } from "react-router";
 import { createOrder } from "../../services/apiRestaurant";
 import type { NewOrder } from "../../types/types";
+import store from "../../store";
+import { clearCart } from "../cart/cartSlice";
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str: string) =>
@@ -16,7 +18,7 @@ export async function action({ request }: ActionFunctionArgs) {
     customer: String(data.customer),
     phone: String(data.phone),
     address: String(data.address),
-    priority: data.priority === "on",
+    priority: data.priority === "true",
     cart: JSON.parse(String(data.cart)),
   };
 
@@ -28,10 +30,11 @@ export async function action({ request }: ActionFunctionArgs) {
 
   if (Object.keys(errors).length > 0) return errors;
 
-  // If everything is okay, create new order and redirect
-  // const newOrder = await createOrder(order);
+  //If everything is okay, create new order and redirect
+  const newOrder = await createOrder(order);
 
-  // return redirect(`/order/${newOrder.id}`);
+  // Do NOT overuse
+  store.dispatch(clearCart());
 
-  return null;
+  return redirect(`/order/${newOrder.id}`);
 }
