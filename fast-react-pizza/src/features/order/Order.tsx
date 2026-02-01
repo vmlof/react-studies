@@ -10,7 +10,7 @@ import {
 import OrderItem from "./OrderItem";
 import { useEffect } from "react";
 import type { IOrder, Pizza } from "../../types/types";
-import UpdateOrder from "./UpdateOrder";
+import UpdateOrder from "./UpdateOrder.tsx";
 
 function Order() {
   const order: IOrder = useLoaderData();
