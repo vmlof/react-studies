@@ -58,30 +58,8 @@ const Button = styled.button<ButtonProps>`
   border-radius: var(--border-radius-sm);
   box-shadow: var(--shadow-sm);
 
-  ${({ variation }) =>
-    variation === "primary" &&
-    css`
-      border: none;
-      border-radius: var(--border-radius-sm);
-      box-shadow: var(--shadow-sm);
-    `}
-
-  ${({ size }) =>
-    size === "medium" &&
-    css`
-      border: none;
-      border-radius: var(--border-radius-sm);
-      box-shadow: var(--shadow-sm);
-    `}
+  ${(props) => sizes[props.size || "medium"]}
+  ${(props) => variations[props.variation || "primary"]}
 `;
-
-// const Button = styled.button<ButtonProps>`
-//   border: none;
-//   border-radius: var(--border-radius-sm);
-//   box-shadow: var(--shadow-sm);
-
-//   ${(props) => sizes[props.size]}
-//   ${(props) => variations[props.variation]}
-// `;
 
 export default Button;
