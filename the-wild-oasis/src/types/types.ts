@@ -3,7 +3,7 @@ export interface Cabin {
   createdAt: string;
   description: string;
   discount: number;
-  image: string | null;
+  image: string;
   maxCapacity: number;
   name: string;
   regularPrice: number;
