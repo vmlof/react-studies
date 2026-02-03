@@ -3,16 +3,20 @@ import Form from "../../ui/Form";
 import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
-import { useForm, type FieldErrors } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import type { Cabin } from "../../types/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createCabin } from "../../services/apiCabins";
 import toast from "react-hot-toast";
 import FormRow from "../../ui/FormRow";
 
+type FormValues = Omit<Cabin, "image"> & {
+  image: FileList;
+};
+
 function CreateCabinForm() {
   const { register, handleSubmit, reset, getValues, formState } =
-    useForm<Cabin>();
+    useForm<FormValues>();
   const { errors } = formState;
   const queryClient = useQueryClient();
   console.log(errors);
@@ -29,8 +33,8 @@ function CreateCabinForm() {
     onError: (err) => toast.error(err.message),
   });
 
-  function onSubmit(data: Cabin) {
-    mutate(data);
+  function onSubmit(data: FormValues) {
+    mutate({ ...data, image: data.image[0] });
   }
 
   // function onError(errors: FieldErrors<Cabin>) {
@@ -80,6 +84,7 @@ function CreateCabinForm() {
           disabled={isPending}
           {...register("regularPrice", {
             required: "This field is required",
+            valueAsNumber: true,
             min: {
               value: 1,
               message: "Price should be at least 1",
@@ -96,8 +101,9 @@ function CreateCabinForm() {
           defaultValue={0}
           {...register("discount", {
             required: "This field is required",
-            validate: (value: number) =>
-              value <= getValues().regularPrice ||
+            valueAsNumber: true,
+            validate: (value) =>
+              Number(value) <= getValues().regularPrice ||
               "Discount should be less than regular price",
           })}
         />
@@ -120,7 +126,13 @@ function CreateCabinForm() {
       </FormRow>
 
       <FormRow label="Cabin photo" id="image">
-        <FileInput id="image" accept="image/*" />
+        <FileInput
+          id="image"
+          accept="image/*"
+          {...register("image", {
+            required: "This field is required",
+          })}
+        />
       </FormRow>
 
       <FormRow>

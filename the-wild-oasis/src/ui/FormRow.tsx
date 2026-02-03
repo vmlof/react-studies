@@ -42,7 +42,6 @@ interface FormRowProps {
   id?: string;
   children: React.ReactNode;
 }
-// FieldErrors<Cabin>
 
 function FormRow({ label, error, id, children }: FormRowProps) {
   return (
