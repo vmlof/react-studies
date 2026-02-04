@@ -23,8 +23,6 @@ export async function createEditCabin({
   newCabin: CreateCabinDTO;
   id?: number;
 }) {
-  console.log(newCabin, id);
-
   const hasImagePath =
     typeof newCabin.image === "string" &&
     newCabin.image?.startsWith(supabaseUrl);
@@ -39,21 +37,29 @@ export async function createEditCabin({
     : `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
 
   // 1. Create/edit cabin
-  let query = supabase.from("cabins");
+  let query:
+    | ReturnType<typeof supabase.from>
+    | ReturnType<ReturnType<typeof supabase.from>["insert"]>
+    | ReturnType<ReturnType<typeof supabase.from>["update"]>;
 
-  // A) CREATE
-  if (!id) query = query.insert([{ ...newCabin, image: imagePath }]);
+  query = supabase.from("cabins");
 
-  // B) EDIT
-  if (id) query = query.update({ ...newCabin, image: imagePath }).eq("id", id);
-  // .select();
+  if (!id) {
+    // A) CREATE
+    query = query.insert([{ ...newCabin, image: imagePath }]);
+  } else {
+    // B) EDIT
+    query = query.update({ ...newCabin, image: imagePath }).eq("id", id);
+  }
 
-  const { data, error } = await query!.select().single();
+  const { data, error } = await query.select().single();
 
   if (error) {
     console.error(error);
     throw new Error("Cabin could not be created");
   }
+
+  if (hasImagePath) return data;
 
   // 2. Upload image
   const { error: storageError } = await supabase.storage
