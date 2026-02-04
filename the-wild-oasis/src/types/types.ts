@@ -8,5 +8,3 @@ export interface Cabin {
   name: string;
   regularPrice: number;
 }
-
-export type CreateCabinData = Omit<Cabin, "id" | "createdAt">;
