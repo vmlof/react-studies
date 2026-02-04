@@ -27,7 +27,7 @@ function CreateCabinForm({ cabinToEdit = {} as Cabin }: CreateCabinProps) {
 
   const { register, handleSubmit, reset, getValues, formState } =
     useForm<FormValues>({
-      defaultValues: isEditSession ? cabinToEdit : {},
+      defaultValues: isEditSession ? editValues : {},
     });
   const { errors } = formState;
 
