@@ -1,3 +1,5 @@
+import type React from "react";
+import { createContext, useContext } from "react";
 import styled from "styled-components";
 
 const StyledTable = styled.div`
@@ -9,7 +11,11 @@ const StyledTable = styled.div`
   overflow: hidden;
 `;
 
-const CommonRow = styled.div`
+type CommonRowProps = {
+  columns: string;
+};
+
+const CommonRow = styled.div<CommonRowProps>`
   display: grid;
   grid-template-columns: ${(props) => props.columns};
   column-gap: 2.4rem;
@@ -58,3 +64,72 @@ const Empty = styled.p`
   text-align: center;
   margin: 2.4rem;
 `;
+
+interface TableProps {
+  children: React.ReactNode;
+  columns: string;
+}
+
+interface HeaderProps {
+  children: React.ReactNode;
+}
+
+interface RowProps {
+  children: React.ReactNode;
+}
+
+interface BodyProps {
+  children: React.ReactNode;
+}
+
+type TableContextType = {
+  columns: string;
+};
+
+const TableContext = createContext<TableContextType | null>(null);
+
+function Table({ children, columns }: TableProps) {
+  return (
+    <TableContext.Provider value={{ columns }}>
+      <StyledTable role="table">{children}</StyledTable>
+    </TableContext.Provider>
+  );
+}
+
+function Header({ children }: HeaderProps) {
+  const context = useContext(TableContext);
+  if (!context) {
+    throw new Error("Something went wrong.");
+  }
+
+  const { columns } = context;
+
+  return (
+    <StyledHeader role="row" columns={columns} as="header">
+      {children}
+    </StyledHeader>
+  );
+}
+
+function Row({ children }: RowProps) {
+  const context = useContext(TableContext);
+  if (!context) {
+    throw new Error("Something went wrong.");
+  }
+
+  const { columns } = context;
+
+  return (
+    <StyledRow role="row" columns={columns}>
+      {children}
+    </StyledRow>
+  );
+}
+function Body({ chidren }: BodyProps) {}
+
+Table.Header = Header;
+Table.Body = Body;
+Table.Row = Row;
+Table.Footer = Footer;
+
+export default Table;
