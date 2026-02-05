@@ -4,11 +4,9 @@ interface FormProps {
   type?: "modal" | "regular";
 }
 
-const Form = styled.form.attrs<FormProps>((props) => ({
-  type: props.type || "regular",
-}))<FormProps>`
+const Form = styled.form<FormProps>`
   ${(props) =>
-    props.type === "regular" &&
+    (props.type === "regular" || !props.type) &&
     css`
       padding: 2.4rem 4rem;
 

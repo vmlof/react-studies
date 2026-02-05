@@ -1,3 +1,5 @@
+import { cloneElement, createContext, useContext, useState } from "react";
+import type { ReactElement, Dispatch, SetStateAction } from "react";
 import { createPortal } from "react-dom";
 import { HiXMark } from "react-icons/hi2";
 import styled from "styled-components";
@@ -51,23 +53,77 @@ const Button = styled.button`
   }
 `;
 
-interface ModalProps {
-  children: React.ReactNode;
-  onClose: () => void;
+interface ModalContextType {
+  openName: string;
+  close: () => void;
+  open: Dispatch<SetStateAction<string>>;
 }
 
-function Modal({ children, onClose }: ModalProps) {
+const ModalContext = createContext<ModalContextType | null>(null);
+
+interface WindowProps {
+  children: React.ReactNode;
+  name: string;
+}
+
+interface ModalProps {
+  children: React.ReactNode;
+}
+
+interface OpenProps {
+  children: React.ReactNode;
+  opens: string;
+}
+
+function Modal({ children }: ModalProps) {
+  const [openName, setOpenName] = useState("");
+
+  const close = () => setOpenName("");
+  const open = setOpenName;
+
+  return (
+    <ModalContext.Provider value={{ openName, close, open }}>
+      {children}
+    </ModalContext.Provider>
+  );
+}
+
+function Open({ children, opens }: OpenProps) {
+  const context = useContext(ModalContext);
+  if (!context) throw new Error("Open must be used within a Modal");
+  const { open } = context;
+
+  return cloneElement(children as ReactElement<{ onClick: () => void }>, {
+    onClick: () => open(opens),
+  });
+}
+
+function Window({ children, name }: WindowProps) {
+  const context = useContext(ModalContext);
+  if (!context) throw new Error("Window must be used within a Modal");
+  const { openName, close } = context;
+
+  if (name !== openName) return null;
+
   return createPortal(
     <Overlay>
       <StyledModal>
-        <Button onClick={onClose}>
+        <Button onClick={close}>
           <HiXMark />
         </Button>
-        <div>{children}</div>
+        <div>
+          {cloneElement(
+            children as ReactElement<{ onCloseModal: () => void }>,
+            { onCloseModal: close },
+          )}
+        </div>
       </StyledModal>
     </Overlay>,
     document.body,
   );
 }
+
+Modal.Open = Open;
+Modal.Window = Window;
 
 export default Modal;
