@@ -78,8 +78,9 @@ interface RowProps {
   children: React.ReactNode;
 }
 
-interface BodyProps {
-  children: React.ReactNode;
+interface BodyProps<T> {
+  data: T[];
+  render: (item: T) => React.ReactNode;
 }
 
 type TableContextType = {
@@ -125,7 +126,10 @@ function Row({ children }: RowProps) {
     </StyledRow>
   );
 }
-function Body({ chidren }: BodyProps) {}
+function Body<T>({ data, render }: BodyProps<T>) {
+  if (!data.length) return <Empty>No data to show at the moment</Empty>;
+  return <StyledBody>{data.map(render)}</StyledBody>;
+}
 
 Table.Header = Header;
 Table.Body = Body;
