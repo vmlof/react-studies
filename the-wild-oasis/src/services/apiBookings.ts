@@ -1,20 +1,76 @@
-import type { BookingWithData } from "../types/types";
+import type { Booking, BookingWithData } from "../types/types";
 import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
 
-export async function getBookings(): Promise<BookingWithData[]> {
-  const { data, error } = await supabase
+export interface Filter {
+  field: string;
+  value: string;
+  method?: string;
+}
+
+export interface SortBy {
+  field: string;
+  direction: string;
+}
+
+interface GetBookingsProps {
+  filter: Filter | null;
+  sortBy?: SortBy;
+}
+
+export async function getBookings({
+  filter,
+  sortBy,
+}: GetBookingsProps): Promise<BookingWithData[]> {
+  let query = supabase
     .from("bookings")
     .select(
-      "id, created_at, startDate, endDate, numNights, numGuests, status, totalPrice, cabins(name), guests(fullName,email)",
+      "id, created_at, startDate, endDate, numNights, numGuests, status, totalPrice, cabins!inner(name), guests!inner(fullName,email)",
+      { count: "exact" },
     );
+
+  // FILTER
+  if (filter !== null && filter.field && filter.value) {
+    const method = filter.method || "eq";
+    switch (method) {
+      case "eq":
+        query = query.eq(filter.field, filter.value);
+        break;
+      case "neq":
+        query = query.neq(filter.field, filter.value);
+        break;
+      case "gt":
+        query = query.gt(filter.field, filter.value);
+        break;
+      case "gte":
+        query = query.gte(filter.field, filter.value);
+        break;
+      case "lt":
+        query = query.lt(filter.field, filter.value);
+        break;
+      case "lte":
+        query = query.lte(filter.field, filter.value);
+        break;
+      default:
+        query = query.eq(filter.field, filter.value);
+    }
+  }
+
+  // SORT
+  if (sortBy && sortBy.field) {
+    query = query.order(sortBy.field, {
+      ascending: sortBy.direction === "asc",
+    });
+  }
+
+  const { data, error } = await query;
 
   if (error) {
     console.error(error);
-    throw new Error("Bokkings not found");
+    throw new Error("Bookings could not be loaded");
   }
 
-  return (data || []) as unknown as BookingWithData[];
+  return data as unknown as BookingWithData[];
 }
 
 export async function getBooking(id: number) {
@@ -81,7 +137,7 @@ export async function getStaysTodayActivity() {
   return data;
 }
 
-export async function updateBooking(id: number, obj: any) {
+export async function updateBooking(id: number, obj: Partial<Booking>) {
   const { data, error } = await supabase
     .from("bookings")
     .update(obj)

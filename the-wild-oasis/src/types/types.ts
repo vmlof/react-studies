@@ -9,7 +9,7 @@ export interface Cabin {
   regularPrice: number;
 }
 
-export interface Bookig {
+export interface Booking {
   id: number;
   createdAt: string;
   startDate: string;

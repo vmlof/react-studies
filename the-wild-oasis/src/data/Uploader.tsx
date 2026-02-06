@@ -8,67 +8,93 @@ import { bookings } from "./data-booking";
 import { cabins } from "./data-cabins";
 import { guests } from "./data-guests";
 
-// const originalSettings = {
-//   minBookingLength: 3,
-//   maxBookingLength: 30,
-//   maxGuestsPerBooking: 10,
-//   breakfastPrice: 15,
-// };
+interface MockCabin {
+  id?: number;
+  name: string;
+  maxCapacity: number;
+  regularPrice: number;
+  discount: number;
+  image: string;
+  description?: string;
+}
 
-interface Guest {
-  fullName: string;
-  email: string;
-  nationality: string;
-  nationalID: string;
-  countryFlag: string;
+interface MockBooking {
+  created_at: string;
+  startDate: string;
+  endDate: string;
+  cabinId: number;
+  guestId: number;
+  hasBreakfast: boolean;
+  observations: string;
+  isPaid: boolean;
+  numGuests: number;
 }
 
 async function deleteGuests() {
   const { error } = await supabase.from("guests").delete().gt("id", 0);
-  if (error) console.log(error.message);
+  if (error) console.error(error.message);
 }
 
 async function deleteCabins() {
   const { error } = await supabase.from("cabins").delete().gt("id", 0);
-  if (error) console.log(error.message);
+  if (error) console.error(error.message);
 }
 
 async function deleteBookings() {
   const { error } = await supabase.from("bookings").delete().gt("id", 0);
-  if (error) console.log(error.message);
+  if (error) console.error(error.message);
 }
 
 async function createGuests() {
-  const { error } = await supabase.from("guests").insert(guests);
-  if (error) console.log(error.message);
+  const guestsData = guests.map((guest) => ({
+    fullName: guest.fullName,
+    email: guest.email,
+    NationalID: guest.nationalID,
+    nationality: guest.nationality,
+    countryFlag: guest.countryFlag,
+  }));
+
+  const { error } = await supabase.from("guests").insert(guestsData);
+  if (error) console.error(error.message);
 }
 
 async function createCabins() {
-  const { error } = await supabase.from("cabins").insert(cabins);
-  if (error) console.log(error.message);
+  const cabinsData = cabins.map((cabin) => ({
+    name: cabin.name,
+    maxCapacity: cabin.maxCapacity,
+    regularPrice: cabin.regularPrice,
+    discount: cabin.discount,
+    description: cabin.description,
+    image: cabin.image,
+  }));
+
+  const { error } = await supabase.from("cabins").insert(cabinsData);
+  if (error) console.error(error.message);
 }
 
 async function createBookings() {
-  const { data: guestsIds } = await supabase
+  const { data: guestsIds, error: guestsError } = await supabase
     .from("guests")
     .select("id")
     .order("id");
 
-  // Garantir que guestsIds não é null
-  const allGuestIds = guestsIds ? guestsIds.map((cabin) => cabin.id) : [];
+  if (guestsError) console.error(guestsError);
 
-  const { data: cabinsIds } = await supabase
+  const allGuestIds = guestsIds ? guestsIds.map((guest) => guest.id) : [];
+
+  const { data: cabinsIds, error: cabinsError } = await supabase
     .from("cabins")
     .select("id")
     .order("id");
 
+  if (cabinsError) console.error(cabinsError);
+
   const allCabinIds = cabinsIds ? cabinsIds.map((cabin) => cabin.id) : [];
 
-  const finalBookings = bookings.map((booking) => {
-    const cabin = cabins.at(booking.cabinId - 1);
+  const finalBookings = bookings.map((booking: MockBooking) => {
+    const cabin = cabins.at(booking.cabinId - 1) as MockCabin;
     const numNights = subtractDates(booking.endDate, booking.startDate);
 
-    // Verificações de segurança
     const cabinRegularPrice = cabin ? cabin.regularPrice : 0;
     const cabinDiscount = cabin ? cabin.discount : 0;
 
@@ -98,21 +124,25 @@ async function createBookings() {
       status = "checked-in";
 
     return {
-      ...booking,
-      numNights,
-      cabinPrice,
-      extrasPrice,
-      totalPrice,
-      guestId: allGuestIds.at(booking.guestId - 1),
+      created_at: booking.created_at,
+      startDate: booking.startDate,
+      endDate: booking.endDate,
+      numNights: numNights,
+      numGuests: booking.numGuests,
+      cabinPrice: cabinPrice,
+      extrasPrice: extrasPrice,
+      totalPrice: totalPrice,
+      status: status,
+      hasBreakFast: booking.hasBreakfast,
+      isPaid: booking.isPaid,
+      observations: booking.observations,
       cabinId: allCabinIds.at(booking.cabinId - 1),
-      status,
+      guestId: allGuestIds.at(booking.guestId - 1),
     };
   });
 
-  console.log(finalBookings);
-
   const { error } = await supabase.from("bookings").insert(finalBookings);
-  if (error) console.log(error.message);
+  if (error) console.error("", error.message);
 }
 
 function Uploader() {
