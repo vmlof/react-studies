@@ -9,6 +9,36 @@ export interface Cabin {
   regularPrice: number;
 }
 
+export interface Bookig {
+  id: number;
+  createdAt: string;
+  startDate: string;
+  endDate: string;
+  numNights: number;
+  numGuests: number;
+  cabinPrice: number;
+  extrasPrice: number;
+  totalPrice: number;
+  status: string;
+  hasBreakFast: boolean;
+  isPaid: boolean;
+  observations: string;
+  cabinId: number;
+  guestId: number;
+}
+
+export interface BookingWithData {
+  id: number;
+  created_at: string;
+  startDate: string;
+  endDate: string;
+  numNights: number;
+  numGuests: number;
+  status: string;
+  totalPrice: number;
+  cabins: { name: string } | null;
+  guests: { fullName: string; email: string } | null;
+}
 export interface Settings {
   id: number;
   createdAt: string;

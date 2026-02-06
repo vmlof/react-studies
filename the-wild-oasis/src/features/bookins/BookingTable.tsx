@@ -1,9 +1,18 @@
 import BookingRow from "./BookingRow";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
+import Empty from "../../ui/Empty";
+import { useBookins } from "./useBookins";
+import Spinner from "../../ui/Spinner";
 
 function BookingTable() {
-  const bookings = [];
+  const { bookings, isPending } = useBookins();
+
+  console.log(bookings);
+
+  if (isPending) return <Spinner />;
+
+  if (!bookings) return <Empty resourceName="bookins" />;
 
   return (
     <Menus>
@@ -18,7 +27,7 @@ function BookingTable() {
         </Table.Header>
 
         <Table.Body
-          data={bookings}
+          data={bookings || []}
           render={(booking) => (
             <BookingRow key={booking.id} booking={booking} />
           )}

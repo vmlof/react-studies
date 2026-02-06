@@ -1,5 +1,21 @@
+import type { BookingWithData } from "../types/types";
 import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
+
+export async function getBookings(): Promise<BookingWithData[]> {
+  const { data, error } = await supabase
+    .from("bookings")
+    .select(
+      "id, created_at, startDate, endDate, numNights, numGuests, status, totalPrice, cabins(name), guests(fullName,email)",
+    );
+
+  if (error) {
+    console.error(error);
+    throw new Error("Bokkings not found");
+  }
+
+  return (data || []) as unknown as BookingWithData[];
+}
 
 export async function getBooking(id: number) {
   const { data, error } = await supabase
