@@ -1,10 +1,17 @@
 import styled from "styled-components";
+import type { Options } from "./Filter";
 
-interface SelectProps {
+interface StyledSelectProps {
   type?: "white";
 }
 
-const StyledSelect = styled.select<SelectProps>`
+interface SelectProps extends StyledSelectProps {
+  options: Options[];
+  value: string;
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+}
+
+const StyledSelect = styled.select<StyledSelectProps>`
   font-size: 1.4rem;
   padding: 0.8rem 1.2rem;
   border: 1px solid
@@ -17,3 +24,17 @@ const StyledSelect = styled.select<SelectProps>`
   font-weight: 500;
   box-shadow: var(--shadow-sm);
 `;
+
+function Select({ options, value, type, onChange }: SelectProps) {
+  return (
+    <StyledSelect value={value} onChange={onChange} type={type}>
+      {options.map((option) => (
+        <option value={option.value} key={option.value}>
+          {option.label}
+        </option>
+      ))}
+    </StyledSelect>
+  );
+}
+
+export default Select;

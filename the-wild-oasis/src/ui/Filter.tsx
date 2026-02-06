@@ -39,7 +39,7 @@ const FilterButton = styled.button<FilterButtonProps>`
   }
 `;
 
-interface Options {
+export interface Options {
   value: string;
   label: string;
 }
@@ -66,6 +66,7 @@ function Filter({ filterField, options }: FilterProps) {
             key={option.value}
             onClick={() => handleClick(option.value)}
             active={option.value === currentFilter}
+            disabled={option.value === currentFilter}
           >
             {option.label}
           </FilterButton>
