@@ -4,7 +4,7 @@ import supabase from "../services/supabase";
 import Button from "../ui/Button";
 import { subtractDates } from "../utils/helpers";
 
-import { bookings } from "./data-bookings";
+import { bookings } from "./data-booking";
 import { cabins } from "./data-cabins";
 import { guests } from "./data-guests";
 
@@ -15,7 +15,6 @@ import { guests } from "./data-guests";
 //   breakfastPrice: 15,
 // };
 
-// Tipagem simples para auxiliar
 interface Guest {
   fullName: string;
   email: string;
