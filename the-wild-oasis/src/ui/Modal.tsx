@@ -60,7 +60,15 @@ interface ModalContextType {
   open: Dispatch<SetStateAction<string>>;
 }
 
-const ModalContext = createContext<ModalContextType | null>(null);
+const ModalContext = createContext<ModalContextType | undefined>(undefined);
+
+function useModalContext() {
+  const context = useContext(ModalContext);
+  if (!context) {
+    throw new Error("useModalContext must be used within a Modal provider");
+  }
+  return context;
+}
 
 interface WindowProps {
   children: React.ReactNode;
@@ -90,8 +98,7 @@ function Modal({ children }: ModalProps) {
 }
 
 function Open({ children, opens }: OpenProps) {
-  const context = useContext(ModalContext);
-  if (!context) throw new Error("Open must be used within a Modal");
+  const context = useModalContext();
   const { open } = context;
 
   return cloneElement(children as ReactElement<{ onClick: () => void }>, {
@@ -100,8 +107,7 @@ function Open({ children, opens }: OpenProps) {
 }
 
 function Window({ children, name }: WindowProps) {
-  const context = useContext(ModalContext);
-  if (!context) throw new Error("Window must be used within a Modal");
+  const context = useModalContext();
   const { openName, close } = context;
   const ref = UseOutsideClick(close);
 
