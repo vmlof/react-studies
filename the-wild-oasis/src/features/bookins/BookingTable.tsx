@@ -7,7 +7,7 @@ import Spinner from "../../ui/Spinner";
 import Pagination from "../../ui/Pagination";
 
 function BookingTable() {
-  const { bookings, isPending } = useBookins();
+  const { bookings, isPending, count } = useBookins();
 
   console.log(bookings);
 
@@ -34,7 +34,7 @@ function BookingTable() {
           )}
         />
         <Table.Footer>
-          <Pagination count={45} />
+          <Pagination count={count || 0} />
         </Table.Footer>
       </Table>
     </Menus>
