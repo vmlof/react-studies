@@ -6,7 +6,7 @@ import { useNavigate } from "react-router";
 interface CheckinParams {
   bookingId: number;
   breakfast?: {
-    hasBreakfast?: boolean;
+    hasBreakFast?: boolean;
     extrasPrice?: number;
     totalPrice?: number;
   };

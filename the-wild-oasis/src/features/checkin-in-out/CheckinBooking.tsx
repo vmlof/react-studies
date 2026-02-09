@@ -40,7 +40,7 @@ function CheckinBooking() {
     guests,
     totalPrice,
     numGuests,
-    hasBreakfast,
+    hasBreakFast,
     numNights,
   } = booking;
 
@@ -60,7 +60,7 @@ function CheckinBooking() {
       checkin({
         bookingId,
         breakfast: {
-          hasBreakfast: true,
+          hasBreakFast: true,
           extrasPrice: optionalBreakfastPrice,
           totalPrice: totalPrice + optionalBreakfastPrice,
         },
@@ -79,7 +79,7 @@ function CheckinBooking() {
 
       <BookingDataBox booking={booking} />
 
-      {!hasBreakfast && (
+      {!hasBreakFast && (
         <Box>
           <Checkbox
             checked={addBreakfast}
@@ -115,7 +115,7 @@ function CheckinBooking() {
         >
           Check in booking #{bookingId}
         </Button>
-        <Button variation="secondary" onClick={moveBack}>
+        <Button $variation="secondary" onClick={moveBack}>
           Back
         </Button>
       </ButtonGroup>
