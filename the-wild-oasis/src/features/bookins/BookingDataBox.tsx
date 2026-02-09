@@ -98,7 +98,6 @@ const Footer = styled.footer`
   text-align: right;
 `;
 
-// Defina uma interface para o objeto Booking se for reutilizar
 interface BookingData {
   created_at: string;
   startDate: string;
