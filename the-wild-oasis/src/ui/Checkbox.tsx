@@ -1,4 +1,4 @@
-import { ReactNode, ChangeEventHandler } from "react";
+import type { ChangeEventHandler } from "react";
 import styled from "styled-components";
 
 const StyledCheckbox = styled.div`

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import BookingDataBox from "../../features/bookings/BookingDataBox";
 
 import Row from "../../ui/Row";
 import Heading from "../../ui/Heading";
@@ -8,6 +7,13 @@ import Button from "../../ui/Button";
 import ButtonText from "../../ui/ButtonText";
 
 import { useMoveBack } from "../../hooks/useMoveBack";
+import BookingDataBox from "../bookins/BookingDataBox";
+import { useBooking } from "../bookins/useBooking";
+import Spinner from "../../ui/Spinner";
+import { useState } from "react";
+import Checkbox from "../../ui/Checkbox";
+import { formatCurrency } from "../../utils/helpers";
+import { useChecking } from "./useChecking";
 
 const Box = styled.div`
   /* Box */
@@ -18,9 +24,12 @@ const Box = styled.div`
 `;
 
 function CheckinBooking() {
+  const [confirmPaid, setConfirmPaid] = useState(false);
+  const { booking, isLoading } = useBooking();
   const moveBack = useMoveBack();
+  const { checkin, isCheckingIn } = useChecking();
 
-  const booking = {};
+  if (isLoading) return <Spinner />;
 
   const {
     id: bookingId,
@@ -31,7 +40,13 @@ function CheckinBooking() {
     numNights,
   } = booking;
 
-  function handleCheckin() {}
+  // Check if booking is already paid
+  const isPaidAlready = booking.isPaid ?? false;
+
+  function handleCheckin() {
+    if (!confirmPaid) return;
+    checkin(bookingId);
+  }
 
   return (
     <>
@@ -42,8 +57,25 @@ function CheckinBooking() {
 
       <BookingDataBox booking={booking} />
 
+      <Box>
+        <Checkbox
+          checked={isPaidAlready || confirmPaid}
+          onChange={() => setConfirmPaid((confirm) => !confirm)}
+          disabled={isPaidAlready || isCheckingIn}
+          id="confirm"
+        >
+          I confirm that {guests.fullName} has paid the total amount of{" "}
+          {formatCurrency(totalPrice)}
+        </Checkbox>
+      </Box>
+
       <ButtonGroup>
-        <Button onClick={handleCheckin}>Check in booking #{bookingId}</Button>
+        <Button
+          onClick={handleCheckin}
+          disabled={(!isPaidAlready && !confirmPaid) || isCheckingIn}
+        >
+          Check in booking #{bookingId}
+        </Button>
         <Button variation="secondary" onClick={moveBack}>
           Back
         </Button>
