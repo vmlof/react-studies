@@ -1,0 +1,43 @@
+import { createContext, useEffect } from "react";
+import { useLocalStorageState } from "../hooks/useLocalStorageState";
+
+interface DarkModeProviderProps {
+  children: React.ReactNode;
+}
+
+interface DarkModeContextType {
+  isDarkMode: boolean;
+  toggleDarkMode: () => void;
+}
+
+const DarkModeContext = createContext<DarkModeContextType | undefined>(
+  undefined,
+);
+
+function DarkModeProvider({ children }: DarkModeProviderProps) {
+  const [isDarkMode, setIsDarkMode] = useLocalStorageState(false, "isDarkMode");
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark-mode");
+      document.documentElement.classList.remove("light-mode");
+    } else {
+      if (isDarkMode) {
+        document.documentElement.classList.add("light-mode");
+        document.documentElement.classList.remove("dark-mode");
+      }
+    }
+  }, [isDarkMode]);
+
+  function toggleDarkMode() {
+    setIsDarkMode((isDark) => !isDark);
+  }
+
+  return (
+    <DarkModeContext.Provider value={{ isDarkMode, toggleDarkMode }}>
+      {children}
+    </DarkModeContext.Provider>
+  );
+}
+
+export { DarkModeProvider, DarkModeContext };
