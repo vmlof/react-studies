@@ -47,7 +47,7 @@ const Value = styled.p`
 interface StatProps {
   icon: ReactElement;
   title: string;
-  value: string | number;
+  value: string | number | undefined;
   color: string;
 }
 

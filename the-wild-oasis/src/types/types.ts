@@ -47,3 +47,28 @@ export interface Settings {
   maxGuestsPerBooking: number;
   breakfastPrice: number;
 }
+
+export interface BookingStats {
+  created_at: string;
+  totalPrice: number;
+  extrasPrice: number;
+}
+
+export interface StayStats {
+  id: number;
+  created_at: string;
+  startDate: string;
+  endDate: string;
+  numNights: number;
+  numGuests: number;
+  cabinPrice: number;
+  extrasPrice: number;
+  totalPrice: number;
+  status: string;
+  hasBreakFast: boolean;
+  isPaid: boolean;
+  observations: string;
+  cabinId: number;
+  guestId: number;
+  guests: { fullName: string } | null;
+}
