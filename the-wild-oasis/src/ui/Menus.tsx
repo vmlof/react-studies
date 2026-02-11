@@ -136,7 +136,6 @@ function Menus({ children }: MenusProps) {
 function Toggle({ id }: ToggleProps) {
   const { openId, close, open, setPosition } = useMenusContext();
 
-  //e: React.MouseEvent<HTMLButtonElement>
   function handleClick(e: React.MouseEvent) {
     e.stopPropagation();
 
@@ -161,7 +160,7 @@ function Toggle({ id }: ToggleProps) {
 
 function List({ id, children }: ListProps) {
   const { openId, position, close } = useMenusContext();
-  const ref = UseOutsideClick<HTMLUListElement>(close);
+  const ref = UseOutsideClick<HTMLUListElement>(close, false);
 
   if (openId !== id) return null;
 
