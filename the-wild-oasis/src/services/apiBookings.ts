@@ -3,6 +3,7 @@ import type {
   BookingStats,
   BookingWithData,
   StayStats,
+  TodayActivity,
 } from "../types/types";
 import { PAGE_SIZE } from "../utils/constants";
 import { getToday } from "../utils/helpers";
@@ -138,7 +139,7 @@ export async function getStaysAfterDate(date: string): Promise<StayStats[]> {
 }
 
 // Activity means that there is a check in or a check out today
-export async function getStaysTodayActivity() {
+export async function getStaysTodayActivity(): Promise<TodayActivity[]> {
   const { data, error } = await supabase
     .from("bookings")
     .select("*, guests(fullName, nationality, countryFlag)")
@@ -151,7 +152,7 @@ export async function getStaysTodayActivity() {
     console.error(error);
     throw new Error("Bookings could not get loaded");
   }
-  return data;
+  return data as TodayActivity[];
 }
 
 export async function updateBooking(id: number, obj: Partial<Booking>) {

@@ -122,8 +122,6 @@ interface ChartData {
 }
 
 function prepareData(startData: ChartData[], stays: StayStats[]): ChartData[] {
-  // A bit ugly code, but sometimes this is what it takes when working with real data 😅
-
   function incArrayValue(arr: ChartData[], field: string): ChartData[] {
     return arr.map((obj: ChartData) =>
       obj.duration === field ? { ...obj, value: obj.value + 1 } : obj,

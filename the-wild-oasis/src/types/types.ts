@@ -72,3 +72,17 @@ export interface StayStats {
   guestId: number;
   guests: { fullName: string } | null;
 }
+
+export interface TodayActivity {
+  id: number;
+  created_at: string;
+  startDate: string;
+  endDate: string;
+  numNights: number;
+  status: string;
+  guests: {
+    fullName: string;
+    nationality: string;
+    countryFlag: string;
+  } | null;
+}
