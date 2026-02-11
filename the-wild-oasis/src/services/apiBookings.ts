@@ -1,4 +1,4 @@
-import type { Booking, BookingWithData } from "../types/types";
+import type { Booking, BookingStats, BookingWithData } from "../types/types";
 import { PAGE_SIZE } from "../utils/constants";
 import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
@@ -99,7 +99,9 @@ export async function getBooking(id: number) {
 
 // Returns all BOOKINGS that are were created after the given date. Useful to get bookings created in the last 30 days, for example.
 // date: ISOString
-export async function getBookingsAfterDate(date: string) {
+export async function getBookingsAfterDate(
+  date: string,
+): Promise<BookingStats[]> {
   const { data, error } = await supabase
     .from("bookings")
     .select("created_at, totalPrice, extrasPrice")
@@ -111,7 +113,7 @@ export async function getBookingsAfterDate(date: string) {
     throw new Error("Bookings could not get loaded");
   }
 
-  return data;
+  return data as BookingStats[];
 }
 
 // Returns all STAYS that are were created after the given date
