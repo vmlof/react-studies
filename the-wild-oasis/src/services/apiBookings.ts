@@ -1,4 +1,9 @@
-import type { Booking, BookingStats, BookingWithData } from "../types/types";
+import type {
+  Booking,
+  BookingStats,
+  BookingWithData,
+  StayStats,
+} from "../types/types";
 import { PAGE_SIZE } from "../utils/constants";
 import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
@@ -117,7 +122,7 @@ export async function getBookingsAfterDate(
 }
 
 // Returns all STAYS that are were created after the given date
-export async function getStaysAfterDate(date: string) {
+export async function getStaysAfterDate(date: string): Promise<StayStats[]> {
   const { data, error } = await supabase
     .from("bookings")
     .select("*, guests(fullName)")
@@ -129,7 +134,7 @@ export async function getStaysAfterDate(date: string) {
     throw new Error("Bookings could not get loaded");
   }
 
-  return data;
+  return data as StayStats[];
 }
 
 // Activity means that there is a check in or a check out today
