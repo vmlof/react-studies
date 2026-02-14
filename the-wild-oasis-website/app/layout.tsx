@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
-import "./globals.css";
 import Navigation from "@/app/_components/Navigation";
 import Logo from "@/app/_components/Logo";
+import "@/app/_styles/globals.css";
 
 export const metadata: Metadata = {
-  title: "The Wild Oasis",
-  description: "The Wild Oasis Web Site",
+  title: {
+    template: "%s / The Wild Oasis",
+    default: "Welcome / The Wild Oasis",
+  },
+  description:
+    "Luxurious cabin hotel, located in the heart of the Italian Dolomites, surrounded by beautiful mountains and dark forest",
 };
 
 export default function RootLayout({
@@ -15,13 +19,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className="bg-primary-950 text-primary-100">
         <header>
           <Logo />
         </header>
         <Navigation />
         {children}
-        <footer>Copyright by The Wild Oasis</footer>
+        <footer>Copyright &copy; by The Wild Oasis</footer>
       </body>
     </html>
   );
