@@ -5,7 +5,7 @@ import { Cabin } from "../types/types";
 /////////////
 // GET
 
-export async function getCabin(id: number) {
+export async function getCabin(id: number): Promise<Cabin> {
   const { data, error } = await supabase
     .from("cabins")
     .select("*")
