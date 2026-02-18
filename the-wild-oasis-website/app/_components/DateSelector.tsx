@@ -2,12 +2,16 @@ import { isWithinInterval } from "date-fns";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 
-function isAlreadyBooked(range, datesArr) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function isAlreadyBooked(
+  range: { from: Date | undefined; to: Date | undefined },
+  datesArr: Date[],
+) {
   return (
     range.from &&
     range.to &&
-    datesArr.some((date) =>
-      isWithinInterval(date, { start: range.from, end: range.to }),
+    datesArr.some((date: Date) =>
+      isWithinInterval(date, { start: range.from!, end: range.to! }),
     )
   );
 }
@@ -18,7 +22,14 @@ function DateSelector() {
   const discount = 23;
   const numNights = 23;
   const cabinPrice = 23;
-  const range = { from: null, to: null };
+  const range: { from: Date | undefined; to: Date | undefined } = {
+    from: undefined,
+    to: undefined,
+  };
+
+  function resetRange() {
+    // reset range logic
+  }
 
   // SETTINGS
   const minBookingLength = 1;
@@ -38,7 +49,7 @@ function DateSelector() {
         numberOfMonths={2}
       />
 
-      <div className="flex items-center justify-between px-8 bg-accent-500 text-primary-800 h-[72px]">
+      <div className="flex items-center justify-between px-8 bg-accent-500 text-primary-800 h-18">
         <div className="flex items-baseline gap-6">
           <p className="flex gap-2 items-baseline">
             {discount > 0 ? (

@@ -1,7 +1,10 @@
 import { Metadata } from "next";
+import { Revalidate } from "next/dist/server/lib/cache-control";
 import { CabinList } from "../_components/CabinList";
 import { Suspense } from "react";
 import Spinner from "../_components/Spinner";
+
+export const revalidate: Revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Cabins",
