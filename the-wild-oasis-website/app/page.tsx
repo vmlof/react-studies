@@ -9,7 +9,7 @@ function Page() {
         src={bg}
         fill
         placeholder="blur"
-        quality={80}
+        quality={75}
         className="object-cover object-top"
         alt="Mountains and forests with two cabins"
       />
