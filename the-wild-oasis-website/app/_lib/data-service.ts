@@ -1,8 +1,7 @@
 import { eachDayOfInterval } from "date-fns";
 import { supabase } from "./supabase";
-import { Cabin } from "../types/types";
+import { Cabin, Settings } from "../types/types";
 import { notFound } from "next/navigation";
-import { Settings } from "http2";
 
 /////////////
 // GET
