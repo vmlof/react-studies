@@ -7,3 +7,12 @@ export interface Cabin {
   image: string;
   description: string;
 }
+
+export interface Settings {
+  id: number;
+  createdAt: string;
+  minBookingLength: number;
+  maxBookingLength: number;
+  breakfastPrice: number;
+  maxGuestsPerBooking: number;
+}

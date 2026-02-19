@@ -20,8 +20,7 @@ function TextExpander({ children }: TextExpanderProps) {
         onClick={() => setIsExpanded(!isExpanded)}
       >
         {isExpanded ? "Show less" : "Show more"}
-      </button>
-      0{" "}
+      </button>{" "}
     </span>
   );
 }

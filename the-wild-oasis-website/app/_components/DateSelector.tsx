@@ -1,6 +1,9 @@
+"use client";
+
 import { isWithinInterval } from "date-fns";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
+import { Cabin, Settings } from "../types/types";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function isAlreadyBooked(
@@ -16,7 +19,13 @@ function isAlreadyBooked(
   );
 }
 
-function DateSelector() {
+type DateSelectorProps = {
+  settings: Settings;
+  cabin: Cabin;
+  bookedDates: Date[];
+};
+
+function DateSelector({ settings, cabin, bookedDates }: DateSelectorProps) {
   // CHANGE
   const regularPrice = 23;
   const discount = 23;
@@ -32,13 +41,12 @@ function DateSelector() {
   }
 
   // SETTINGS
-  const minBookingLength = 1;
-  const maxBookingLength = 23;
+  const { minBookingLength, maxBookingLength } = settings;
 
   return (
     <div className="flex flex-col justify-between">
       <DayPicker
-        className="pt-12 place-self-center"
+        className="flex items-center justify-center py-6 min-[1025px]:pt-20 px-[50%] sm:px-0"
         mode="range"
         min={minBookingLength + 1}
         max={maxBookingLength}
@@ -49,7 +57,7 @@ function DateSelector() {
         numberOfMonths={2}
       />
 
-      <div className="flex items-center justify-between px-8 bg-accent-500 text-primary-800 h-18">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between py-2 px-5 md:px-8 bg-accent-500 text-primary-800 h-auto md:h-18">
         <div className="flex items-baseline gap-6">
           <p className="flex gap-2 items-baseline">
             {discount > 0 ? (
