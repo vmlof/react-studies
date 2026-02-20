@@ -54,7 +54,7 @@ function DateSelector({ settings, cabin, bookedDates }: DateSelectorProps) {
   return (
     <div className="flex flex-col justify-between">
       <DayPicker
-        className="flex items-center justify-center py-6 min-[1025px]:pt-20 px-[50%] sm:px-0"
+        className="flex justify-center items-center pt-2 pb-0"
         mode="range"
         onSelect={handleSelect}
         selected={range}

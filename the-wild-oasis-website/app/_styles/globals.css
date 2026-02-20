@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+.rdp-months {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  justify-content: center;
+}
+
 @theme {
   --color-primary-50: #e1e8ef;
   --color-primary-100: #d4dee7;
