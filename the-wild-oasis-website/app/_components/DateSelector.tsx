@@ -60,8 +60,8 @@ function DateSelector({ settings, cabin, bookedDates }: DateSelectorProps) {
         selected={range}
         min={minBookingLength + 1}
         max={maxBookingLength}
-        fromMonth={new Date()}
-        fromDate={new Date()}
+        startMonth={new Date()}
+        hidden={{ before: new Date() }}
         toYear={new Date().getFullYear() + 5}
         captionLayout="dropdown"
         numberOfMonths={2}
