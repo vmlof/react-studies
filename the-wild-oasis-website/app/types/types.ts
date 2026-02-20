@@ -16,3 +16,8 @@ export interface Settings {
   breakfastPrice: number;
   maxGuestsPerBooking: number;
 }
+
+export interface Guest {
+  email: string | null | undefined;
+  fullName: string | null | undefined;
+}
