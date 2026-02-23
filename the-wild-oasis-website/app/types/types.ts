@@ -18,6 +18,10 @@ export interface Settings {
 }
 
 export interface Guest {
+  id?: number;
   email: string | null | undefined;
   fullName: string | null | undefined;
+  nationality?: string;
+  countryFlag?: string;
+  NationalID?: string;
 }

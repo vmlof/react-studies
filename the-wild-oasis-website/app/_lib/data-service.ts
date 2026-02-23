@@ -53,7 +53,7 @@ export const getCabins = async function (): Promise<Cabin[]> {
 };
 
 // Guests are uniquely identified by their email address
-export async function getGuest(email: string) {
+export async function getGuest(email: string): Promise<Guest> {
   const { data, error } = await supabase
     .from("guests")
     .select("*")
@@ -183,6 +183,7 @@ export async function createBooking(newBooking) {
 /////////////
 // UPDATE
 
+/*
 // The updatedFields is an object which should ONLY contain the updated data
 export async function updateGuest(id, updatedFields) {
   const { data, error } = await supabase
@@ -226,3 +227,5 @@ export async function deleteBooking(id) {
   }
   return data;
 }
+
+*/
