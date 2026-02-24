@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { updateGuest } from "../_lib/actions";
 import { Guest } from "../types/types";
-import Button from "./Button";
+import SubmitButton from "./SubmitButton";
 
 type UpdateProfileFormProps = {
   children: React.ReactNode;
@@ -64,7 +64,7 @@ export default function UpdateProfileForm({
       </div>
 
       <div className="flex justify-end items-center gap-6">
-        <Button />
+        <SubmitButton pendingLabel="Updating...">Update profile</SubmitButton>
       </div>
     </form>
   );
